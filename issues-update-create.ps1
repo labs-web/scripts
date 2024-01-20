@@ -1,4 +1,8 @@
-# Création des issue : Publication des éléments de backlog comme issues
+# Création des issue 
+# - Création des issues 
+# - Mise à jour des issues 
+# - Affectation de l'issue à TeamPlanning
+
 # Le sctipy doit être exécuter dans le dossier racine de dépôt
 
 # Organisation name
@@ -72,7 +76,7 @@ Foreach-Object {
         $issue_number = $item_name_array[0]
         Write-Host("Update de l'issue $issue_titre ")
         # confirm_to_continue("Update de l'issue $issue_titre ")
-        gh issue edit $issue_number --add-label feature,new_issue --add-project $project_name --body-file $item_full_name
+        gh issue edit $issue_number --title $issue_titre --add-label feature,new_issue --add-project $project_name --body-file $item_full_name
     }else{
 
         # Create issue
@@ -112,9 +116,3 @@ Foreach-Object {
         }
     }
 }
-
-# Trouver les éléments à créer et à modifier
-
-# Modification
-
-# Création 
