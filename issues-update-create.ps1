@@ -1,5 +1,5 @@
-# Création des issue 
-# Publication des éléments de backlog comme issues
+# Création des issue : Publication des éléments de backlog comme issues
+# Le sctipy doit être exécuter dans le dossier racine de dépôt
 
 # Organisation name
 function get_org_name {
@@ -14,6 +14,12 @@ $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 $prev = [Console]::OutputEncoding
 [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
 
+
+
+# Liste des éléments de backlog 
+$depot_path = Get-Location
+
+
 # Function : Message de confirmation
 function confirm_to_continue($message) {
     $title    = $message 
@@ -25,11 +31,7 @@ function confirm_to_continue($message) {
     } 
 }
 
-# Le sctipy doit être exécuter dans le dossier racine de lab-web
 
-
-# Liste des éléments de backlog 
-$lab_web_path = Get-Location
 
 function find_issue_by_title($title){
     $all_issues = gh issue list --json number,title | ConvertFrom-Json
@@ -49,7 +51,7 @@ function find_issue_by_title($title){
 
 confirm_to_continue("Update or Create issues")
 
-Get-ChildItem "$lab_web_path/backlog" -Filter *.md | 
+Get-ChildItem "$depot_path/backlog" -Filter *.md | 
 Foreach-Object {
 
     # item : name,path
