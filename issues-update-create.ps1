@@ -49,7 +49,7 @@ function find_issue_by_title($title){
 # $issue_test = find_issue_by_title("suivi-réalisation-labs-web")
 # Write-Host( $issue_test)
 
-confirm_to_continue("Update or Create issues")
+confirm_to_continue("Update or Create issues for repository : $depot_path ")
 
 Get-ChildItem "$depot_path/backlog" -Filter *.md | 
 Foreach-Object {
