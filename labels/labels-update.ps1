@@ -1,4 +1,4 @@
-# Update labels for all lab-web
+﻿# Update labels for all lab-web
 
 # Encoding utf8
 $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'

@@ -1,4 +1,4 @@
-# Clone all labs from organisation if not yet cloned
+﻿# Clone all labs from organisation if not yet cloned
 
 function confirm_to_continue($message) {
     $title    = $message 

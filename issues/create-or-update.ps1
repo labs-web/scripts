@@ -1,4 +1,4 @@
-# Création des issue 
+﻿# Création des issue 
 # - Création des issues 
 # - Mise à jour des issues 
 # - Affectation de l'issue à TeamPlanning

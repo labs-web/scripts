@@ -1,4 +1,4 @@
-# Update issue template from gestion-projet repository to all labs
+﻿# Update issue template from gestion-projet repository to all labs
 
 # Emplacement des labs 
 $labs_web_path = $PSScriptRoot + "/../../"

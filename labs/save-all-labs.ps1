@@ -1,4 +1,4 @@
-# Enregistrement de tous les labs 
+﻿# Enregistrement de tous les labs 
 
 # Emplacement des labs 
 $labs_web_path = $PSScriptRoot + "/../../"
