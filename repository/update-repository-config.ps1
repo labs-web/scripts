@@ -4,7 +4,7 @@ Write-Host "`n Ce script ne peut pas être exécuter dans github action `n"
 . "./scripts/core/core.ps1"
 # Core : Params
 $debug = $true
-$confirm_message = $true
+$confirm_message = $false
 
 # inputs
 $depot_path = $(Get-Location).Path
