@@ -1,4 +1,4 @@
-﻿# TODO : Script d'initialisation d'un lab
+﻿# Update the repository
 
 ## Initialisation de dépôt
 
@@ -10,7 +10,8 @@
 ### Copy githib workflow
 # update-issues-from-backlog
 
-## Initalisation de lab-web ou lab-phase
+
+## Copy README.json file
 
 
 # Encoding utf8

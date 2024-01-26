@@ -1,15 +1,17 @@
 ﻿# Update workflow to all labs
+Write-Host "`n Ce script ne peut pas être exécuter dans github action `n"
 
 . "./scripts/core/core.ps1"
 # Core : Params
 $debug = $true
-$confirm_message = $true
+$confirm_message = $false
 
-# Emplacement des labs 
-$organisation_repositories_path = $PSScriptRoot + "/../../"
+# inputs
+$depot_path = $(Get-Location).Path
+$organisation_repositories_path = $depot_path + "/../"
+$repositories_paths = Get-ChildItem $organisation_repositories_path -Filter * 
 
-
-$repositories_paths = Get-ChildItem . -Filter * 
+confirm_to_continue "Mise à jour de tous les workflow de : $organisation_repositories_path"
 
 # Copy template from gestion-projet to all labs
 foreach($repository in $repositories_paths){
@@ -24,21 +26,15 @@ foreach($repository in $repositories_paths){
 
     confirm_to_continue "Modifier les workflow de $repository_name"
 
-    # Delete templates if exist
-    # $issue_template_path = $repository_full_name + "/.github/ISSUE_TEMPLATE"
-    # if (Test-Path $issue_template_path) {
-    #     Write-Host "Delete : $issue_template_path "
-    #     rm $issue_template_path -r -force
-    # }
-
     # Create .github folder if not exist 
     if (-not(Test-Path ($repository_full_name + "/.github"))) {
+        debug "run : mkdir ($repository_full_name/.github) "
         mkdir ($repository_full_name + "/.github")
     }
 
     # Create workflows folder if not exist
     if (-not(Test-Path ($repository_full_name + "/.github/workflows"))) {
-        mkdir ($repository_full_name + "/.github/ISSUE_TEMPLATE")
+        mkdir ($repository_full_name + "/.github/workflows")
     }
 
     # Copy files
