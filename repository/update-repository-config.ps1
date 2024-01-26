@@ -125,12 +125,13 @@ function create_readme_json_file($repository_full_name,$repository_name){
 
 function install_submodule_scripts_if_not_installed($repository_full_name,$repository_name){
     $script_folder = "$repository_full_name/scripts"
+    debug "Install or update $script_folder "
     if (-not(Test-Path "$script_folder")) {
         cd $repository_full_name
         git submodule add https://github.com/labs-web/scripts.git
         cd $depot_path
     }else{
-        cd $repository_full_name
+        cd $script_folder
         git pull
         cd $depot_path
     }
