@@ -1,4 +1,16 @@
-﻿# Script de création d'un lab-web
+﻿# TODO : Script d'initialisation d'un lab
+
+## Initialisation de dépôt
+
+### Copy snippets
+# backlog-item,doc-item
+
+### Copy issues template
+
+### Copy githib workflow
+# update-issues-from-backlog
+
+## Initalisation de lab-web ou lab-phase
 
 
 # Encoding utf8
