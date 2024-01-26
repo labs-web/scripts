@@ -1,7 +1,6 @@
 ﻿# Update the repository
 Write-Host "`n Ce script ne peut pas être exécuter dans github action `n"
 
-
 . "./scripts/core/core.ps1"
 # Core : Params
 $debug = $true
@@ -26,7 +25,7 @@ function create_workspace_file_if_not_exist($repository_full_name,$repository_na
 function create_issues_template_files_if_not_exists($repository_full_name,$repository_name){
     
     $repository_issue_templates_path = "$repository_full_name/.github/ISSUE_TEMPLATE"
-    $scripts_issue_templates_path = $organisation_repositories_path + "scripts/.github/ISSUE_TEMPLATE/"
+    $scripts_issue_templates_path = $repository_full_name + "/scripts/.github/ISSUE_TEMPLATE/"
 
      # Create .github folder if not exist 
      if (-not(Test-Path ($repository_full_name + "/.github"))) {
@@ -62,7 +61,7 @@ function update_workflow_files($repository_full_name,$repository_name){
     }
 
     # Copy files
-    $script_workflows_path = $organisation_repositories_path + "scripts/.github/workflows/"
+    $script_workflows_path = $repository_full_name + "/scripts/.github/workflows/"
 
     debug "Copy update-issues-from-backlog.yml to $repository_full_name/.github/workflows/  "
     copy-Item "$script_workflows_path/update-issues-from-backlog.yml" "$repository_full_name/.github/workflows/"
@@ -108,7 +107,7 @@ function update_snippets($repository_full_name,$repository_name){
         mkdir ($repository_full_name + "/.vscode")
     }
 
-    $script_snippets_path = $organisation_repositories_path + "scripts/.vscode/"
+    $script_snippets_path = $repository_full_name + "/scripts/.vscode/"
     $snippets_files_names = "doc-item.code-snippets","issue.code-snippets"
     foreach($snippet_file_name in $snippets_files_names  ){
         debug "Update : $repository_full_name/.vscode/$snippet_file_name "
@@ -117,7 +116,7 @@ function update_snippets($repository_full_name,$repository_name){
 }
 
 function create_readme_json_file($repository_full_name,$repository_name){
-    $script_readme_json_file_path = $organisation_repositories_path + "scripts/README.json"
+    $script_readme_json_file_path = $repository_full_name + "/scripts/README.json"
     $json_file_path = "$repository_full_name/README.json"
     if (-not(Test-Path "$json_file_path")) {
         debug "Création fichier :  $json_file_path"
@@ -151,6 +150,7 @@ foreach($repository in $repositories_paths){
 
     confirm_to_continue "Mise à jour de dépôt : $repository"
 
+    install_submodule_scripts_if_not_installed $repository_full_name $repository_name
     create_workspace_file_if_not_exist  $repository_full_name $repository_name
     create_issues_template_files_if_not_exists  $repository_full_name $repository_name
     update_workflow_files $repository_full_name $repository_name
@@ -158,8 +158,7 @@ foreach($repository in $repositories_paths){
     create_doc_folder $repository_full_name $repository_name
     update_snippets $repository_full_name $repository_name
     create_readme_json_file $repository_full_name $repository_name
-    install_submodule_scripts_if_not_installed $repository_full_name $repository_name
-
+    
 }
 
 
