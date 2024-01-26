@@ -30,10 +30,22 @@ $readme_string += "## $($readme_data.Backlog.Titre) `n`n"
 $readme_string += "$($readme_data.Backlog.Introduction) `n`n"
 
 
-Get-ChildItem $backlog_files_path |  ForEach-Object {
-    $backlog_item_file_name = $_.Name
-    $readme_string += "- [$backlog_item_file_name](./Backlog/$backlog_item_file_name) `n"
-} 
+$backlog_directories=  Get-ChildItem "$depot_path/backlog"  -Directory
+foreach($backlog_directory in $backlog_directories) {
+    # Ne pas traiter les dossier qui commance par "_"
+    if($backlog_directory.Name -like "_*") {continue}
+    $label = $backlog_directory.Name
+    $directory = $backlog_directory.FullName 
+
+    $readme_string += "- **$label** `n"
+    # Foreach directory item
+    $backlog_items=  Get-ChildItem $directory -Filter *.md  
+    foreach($backlog_item in $backlog_items) {
+        $backlog_item_file_name = $backlog_item.Name
+        $readme_string += "  - [$backlog_item_file_name](./Backlog/$label/$backlog_item_file_name) `n"
+    }
+}
+
 
 
 ## Livrables 
