@@ -5,7 +5,7 @@ Write-Host "`n Ce script ne peut pas être exécuter dans github action `n"
 . "./scripts/core/core.ps1"
 # Core : Params
 $debug = $true
-$confirm_message = $false
+$confirm_message = $true
 
 # inputs
 $depot_path = $(Get-Location).Path
@@ -70,6 +70,9 @@ function update_workflow_files($repository_full_name,$repository_name){
     debug "Copy update-readme-file.yml to $repository_full_name/.github/workflows/  "
     copy-Item "$script_workflows_path/update-readme-file.yml" "$repository_full_name/.github/workflows/"
 
+    debug "Copy jekyll-gh-pages.yml to $repository_full_name/.github/workflows/  "
+    copy-Item "$script_workflows_path/jekyll-gh-pages.yml" "$repository_full_name/.github/workflows/"
+    
 }
 function create_backlog_folder($repository_full_name,$repository_name){
     $backlog_folder_path = "$repository_full_name/backlog"
