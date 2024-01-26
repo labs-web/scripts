@@ -5,7 +5,7 @@ Write-Host "`n Ce script ne peut pas être exécuter dans github action `n"
 . "./scripts/core/core.ps1"
 # Core : Params
 $debug = $true
-$confirm_message = $true
+$confirm_message = $false
 
 # inputs
 $depot_path = $(Get-Location).Path
@@ -123,9 +123,20 @@ function create_readme_json_file($repository_full_name,$repository_name){
   
 }
 
-foreach($repository in $repositories_paths){
+function install_submodule_scripts_if_not_installed($repository_full_name,$repository_name){
+    $script_folder = "$repository_full_name/scripts"
+    if (-not(Test-Path "$script_folder")) {
+        cd $repository_full_name
+        git submodule add https://github.com/labs-web/scripts.git
+        cd $depot_path
+    }else{
+        cd $repository_full_name
+        git pull
+        cd $depot_path
+    }
+}
 
-    confirm_to_continue "Mise à jour de dépôt : $repository"
+foreach($repository in $repositories_paths){
 
     # Nom de lab
     $repository_name = $repository.Name
@@ -134,6 +145,7 @@ foreach($repository in $repositories_paths){
     # Ne pas toucher repository scripts
     if($repository.Name -eq "scripts"){continue}
 
+    confirm_to_continue "Mise à jour de dépôt : $repository"
 
     create_workspace_file_if_not_exist  $repository_full_name $repository_name
     create_issues_template_files_if_not_exists  $repository_full_name $repository_name
@@ -142,6 +154,7 @@ foreach($repository in $repositories_paths){
     create_doc_folder $repository_full_name $repository_name
     update_snippets $repository_full_name $repository_name
     create_readme_json_file $repository_full_name $repository_name
+    install_submodule_scripts_if_not_installed $repository_full_name $repository_name
 
 }
 
