@@ -17,11 +17,13 @@ function if_remote_branch_exist($branche_name){
 function create_branch_to_do_pull_request ($branche_name) {
 
     debug "Création ou changeement de branch : $branche_name  "
-  
+    
+    # Comit local change in branch develop to do checkout
+    debug "Comit local change in branch develop to do checkout to $branche_name"
     git config --global user.name "ESSARRAJ"
     git config --global user.email "essarraj.fouad@gmail.com"
     git add .
-    git commit -m "save to run update-issue-from-backlog.ps1"
+    git commit -m "save to run $branche_name.ps1"
   
     # Delete remote branch 
     # On peut pas vérifier l'existance de branch avant de le supprimer sur github action runnner 
