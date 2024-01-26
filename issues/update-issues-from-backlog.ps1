@@ -8,7 +8,7 @@
 $branche_name = "update_backlog_files"
 
 # $project_name = "labs-web"
-$project_name = $project_name 
+$project_name = $args[0]
 if ($project_name -ne $null) {
   Write-Host "Variable exists"
   debug("project_name exist = $project_name")
