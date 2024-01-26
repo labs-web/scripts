@@ -1,9 +1,9 @@
-﻿Write-Host "--- Import core.ps1 ---"
-
-# Encoding UTF8
+﻿# Encoding UTF8
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 $prev = [Console]::OutputEncoding
 [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
+
+Write-Host "--- Import core.ps1 ---"
 
 
 # Paramètre pardéfaut
