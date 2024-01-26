@@ -1,7 +1,8 @@
 ﻿# Create or updat backlog to issues
 
-. "./scripts/core.ps1"
-
+. "./scripts/core/core.ps1"
+. "./scripts/core/issue.core.ps1"
+. "./scripts/core/pullrequest-core.ps1"
 
 # Global variable
 $branche_name = "update_backlog_files"
