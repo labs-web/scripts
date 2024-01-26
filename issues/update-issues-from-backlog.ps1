@@ -151,7 +151,12 @@ foreach($backlog_directory in $backlog_directories) {
     $label = $backlog_directory.Name
     $directory = $backlog_directory.FullName 
     $return_value = add_or_update_issues $directory $label
-    $chaned_files = $return_value[$return_value.lenght - 1]
+    
+    # if not yest true
+    if(-not($chaned_files)) {
+      $chaned_files = $return_value[$return_value.lenght - 1]
+    }
+    
     
 }
 save_and_send_pullrequest_if_files_changes $branche_name $chaned_files 
