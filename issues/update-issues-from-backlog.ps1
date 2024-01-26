@@ -10,7 +10,7 @@ $project_name = "labs-web"
 $depot_path = Get-Location
 # Core : Params
 $debug = $true
-$test = $true
+$test = $false
 $confirm_message = $false
 
 # Message de confirmation
