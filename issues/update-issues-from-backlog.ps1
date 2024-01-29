@@ -145,8 +145,12 @@ function add_or_update_issues($directory, $label){
     }else{ edit_issue $Issue_obj $label }
 
     # Change backlog_item_file name
-    $add_or_update_issues_chaned_files = change_backlog_item_file_name $Issue_obj
-    
+    $change_backlog_item_file_name_retuen_value = change_backlog_item_file_name $Issue_obj
+
+     # if not yet true
+    if($change_backlog_item_file_name_retuen_value) {
+      $add_or_update_issues_chaned_files = $true  
+    }
 
     # En cas de test traiter un seul fichier par dossier
     if($test ) { break }
