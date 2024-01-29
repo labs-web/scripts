@@ -68,7 +68,7 @@ function get_issue_object([String]$file_name, [String] $file_fullname){
       $Issue_obj.number = $issue.number
     }
   }
-  # Dection de membre 
+  # Detection de membre 
   $membre_title_array = $Issue_obj.title.Split("_")
   if($membre_title_array.Length -eq 2){
     $Issue_obj.member = $membre_title_array[0]
@@ -143,8 +143,10 @@ function add_or_update_issues($directory, $label){
     $Issue_obj = get_issue_object $file_name  $file_fullname
     if($Issue_obj.number -eq 0){ create_issue $Issue_obj $label
     }else{ edit_issue $Issue_obj $label }
+
     # Change backlog_item_file name
     $add_or_update_issues_chaned_files = change_backlog_item_file_name $Issue_obj
+    
 
     # En cas de test traiter un seul fichier par dossier
     if($test ) { break }
@@ -164,7 +166,7 @@ foreach($backlog_directory in $backlog_directories) {
     $directory = $backlog_directory.FullName 
     $return_value = add_or_update_issues $directory $label
     
-    # if not yest true
+    # if not yet true
     if(-not($chaned_files)) {
       $chaned_files = $return_value[$return_value.lenght - 1]
     }
