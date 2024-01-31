@@ -33,14 +33,40 @@ function if_local_branch_exist($branche_name){
 # pullrequest-core.ps1
 # 
 
+# Pour créer des pullrequest sans existant commit
+# Nous allons créer un fichier log pour créer notre premier commit
+function tasklog($branche_name,$issue_obj){
+
+  if (-not(Test-Path ( ".tasklog"))) {
+    debug "run : mkdir .tasklog "
+    mkdir ".tasklog"
+  }
+
+  $file_name = ".tasklog/$branche_name"
+  if (-not(Test-Path $file_name)) {
+    debug "run : new-item   $file_name "
+    new-item   $file_name
+  }
+  
+  $date = Get-Date
+  Set-Content $file_name "Start issue :  $branche_name"
+
+  git add .
+  git commit -m "add tasklog file form  $branche_name "
+  git push
+
+}
+
 function Create_pull_request_if_not_yet_exist($branche_name,$issue_obj ){
+
+  tasklog $branche_name,$issue_obj
 
   # Create pull request if not yet exist
   debug "Create pull request if not yet exist"
 
   $pull_request_title = "$branche_name close #$($issue_obj.number)"
 
-  confirm_to_continue "run : gh pr create --base develop --title $pull_request_title --body 'Réalisation de  :  $($issue_obj.title) '"
+  debug "run : gh pr create --base develop --title $pull_request_title --body 'Réalisation de  :  $($issue_obj.title) '"
   $pull_request_exist = (gh pr list --json title | ConvertFrom-Json).title -contains "$pull_request_title"
   if(-not($pull_request_exist)){
       gh pr create --base develop --title $pull_request_title --body "Réalisation de  :  $($issue_obj.title)"

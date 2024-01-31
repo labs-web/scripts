@@ -33,9 +33,9 @@ function confirm_to_continue($message) {
       } 
       Write-Host "`n"
     }else{
-      if($debug){
-        Write-Host "`n - $message `n"
-      }
+      # if($debug){
+        Write-Host "`n - $message `n" -ForegroundColor DarkGreen 
+      # }
     }
 }
 
