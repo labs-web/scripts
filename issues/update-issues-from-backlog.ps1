@@ -90,7 +90,7 @@ function create_issue($Issue_obj,$label){
   if($Issue_obj.member -eq $null){
     debug "Création nouvelle issue :  $($Issue_obj.title) "
     confirm_to_continue("run : gh issue create --title $($Issue_obj.title) --label $label,new_issue --project $project_name  --body-file $($Issue_obj.body_file)")
-    gh issue create --title $Issue_obj.title --label $label,new_issue --project $project_name  --body-file $($Issue_obj.body_file)
+    gh issue create --title $Issue_obj.title --label $label ,new_issue --project $project_name  --body-file $($Issue_obj.body_file)
     
     # Change $Issue_obj.number
     $remote_issue = find_issue_by_title $Issue_obj.title
@@ -126,8 +126,6 @@ function change_backlog_item_file_name($Issue_obj){
 
 $add_or_update_issues_iteration = 0
 function add_or_update_issues($directory, $label){
-
- 
 
   debug "----`n - Update or Create issues for : $label `n - ----"
 
