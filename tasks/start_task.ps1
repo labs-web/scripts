@@ -12,9 +12,10 @@ $confirm_message = $false
 
 # Param : issue_id 
 
-$issue_number = args[0]
+$issue_number = $args[0]
 if($issue_number -eq $null) {
-    debug("Vous devez exécuter ")
+    debug("Vous devez exécuter le script avec le paramètre : issue_number")
+    exit
 }
 
 # - Création d'une branche
