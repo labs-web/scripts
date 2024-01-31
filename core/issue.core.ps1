@@ -1,4 +1,4 @@
-﻿Write-Host "--- Import issue.core.ps1"
+﻿debug "--- Import issue.core.ps1"
 function find_issue_by_title($title){
   
     # confirm_to_continue("find $title in issues ")

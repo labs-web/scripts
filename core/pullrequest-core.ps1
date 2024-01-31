@@ -1,4 +1,4 @@
-﻿Write-Host "--- Import pullrequest.core.ps1 "
+﻿debug "--- Import pullrequest.core.ps1 "
 
 # new core :  branche.core.ps1
 

@@ -3,13 +3,11 @@ $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 $prev = [Console]::OutputEncoding
 [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
 
-Write-Host "`n--- Import core.ps1 "
 
 
 # Paramètre pardéfaut
-$debug = $true
-$confirm_message = $true
-
+if($debug -eq $null) { $debug = $true }
+if($null -eq $confirm_message) { $debug = $true }
 
 # Debug : Afficher les message de débugage
 function debug($message){
@@ -17,6 +15,8 @@ function debug($message){
     Write-Host "`n - $message "
   }
 }
+
+debug "`n--- Import core.ps1 "
 
 # Message de confirmation
 function confirm_to_continue($message) {
@@ -31,6 +31,7 @@ function confirm_to_continue($message) {
           Write-Host "`n - Vous devez acepter pour continuer `n"
         exit
       } 
+      Write-Host "`n"
     }else{
       if($debug){
         Write-Host "`n - $message `n"
