@@ -22,7 +22,7 @@ function debug($message){
 function confirm_to_continue($message) {
       
     $title    = "- Run : $message "
-    $question = "- Êtes-vous sur de vouloir continuer??"
+    $question = ""
     $choices  = '&Yes', '&No'
   
     if($confirm_message){

@@ -4,8 +4,9 @@
 
 # Trouver si une branch exist ou non
 function if_remote_branch_exist($branche_name){
-    $branch_list = git branch -r
-    debug "Remot branches :  $branch_list "
+    $branch_list = git branch -r 
+    # debug "run functionif_remote_branch_exist :  $branch_list in "
+    # debug ($branch_list  | Format-Table| Out-String)
     foreach($item in $branch_list ){
         $item = $item.Trim()
         if($item  -eq "origin/$branche_name"){
@@ -13,11 +14,24 @@ function if_remote_branch_exist($branche_name){
         }
     }
     return $false
+}
+
+function if_local_branch_exist($branche_name){
+  $branch_list = git branch 
+  # debug "run function : if_local_branch_exist $branche_name in :  "
+  # debug ($branch_list  | Format-Table| Out-String)
+  foreach($item in $branch_list ){
+      $item = $item.Trim()
+      if($item  -eq "$branche_name"){
+          return $true
+      }
   }
+  return $false
+}
 
 
 
-  
+
 # Préparation de git for pullrequest
 function create_branch_to_do_pull_request ($branche_name) {
 
