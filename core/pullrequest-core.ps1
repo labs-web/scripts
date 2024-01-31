@@ -1,4 +1,4 @@
-﻿Write-Host "--- Import pullrequest.core.ps1 ---"
+﻿Write-Host "--- Import pullrequest.core.ps1 "
 
 # Trouver si une branch exist ou non
 function if_remote_branch_exist($branche_name){
