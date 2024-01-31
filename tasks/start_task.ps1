@@ -27,9 +27,10 @@ git commit -m "commit current branche to start new task with issue"
 $issue_obj = find_issue_by_number $issue_number
 debug $issue_obj
 
-# Create new branche 
+# Create new branche if not exist
 confirm_to_continue "Create new branche  : $($issue_obj.title).$($issue_obj.number) "
 git checkout -b "$($issue_obj.title).$($issue_obj.number)" 
+git push --set-upstream origin $branche_name
 git status
 
 # - Laison de la branche avec l'issue

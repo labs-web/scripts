@@ -1,5 +1,7 @@
 ﻿Write-Host "--- Import pullrequest.core.ps1 "
 
+# new core :  branche.core.ps1
+
 # Trouver si une branch exist ou non
 function if_remote_branch_exist($branche_name){
     $branch_list = git branch -r
@@ -13,7 +15,10 @@ function if_remote_branch_exist($branche_name){
     return $false
   }
 
-  # Préparation de git for pullrequest
+
+
+  
+# Préparation de git for pullrequest
 function create_branch_to_do_pull_request ($branche_name) {
 
     debug "Création ou changeement de branch : $branche_name  "
