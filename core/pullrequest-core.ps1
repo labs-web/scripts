@@ -29,7 +29,23 @@ function if_local_branch_exist($branche_name){
   return $false
 }
 
+# 
+# pullrequest-core.ps1
+# 
 
+function Create_pull_request_if_not_yet_exist($branche_name,$issue_obj ){
+
+  # Create pull request if not yet exist
+  debug "Create pull request if not yet exist"
+
+  $pull_request_title = "$branche_name close #$($issue_obj.number)"
+
+  confirm_to_continue "run : gh pr create --base develop --title $pull_request_title --body 'Réalisation de  :  $($issue_obj.title) '"
+  $pull_request_exist = (gh pr list --json title | ConvertFrom-Json).title -contains "$pull_request_title"
+  if(-not($pull_request_exist)){
+      gh pr create --base develop --title $pull_request_title --body "Réalisation de  :  $($issue_obj.title)"
+  }
+}
 
 
 # Préparation de git for pullrequest

@@ -43,10 +43,9 @@ git add .
 git commit -m "commit to end task $currebt_branch_name"
 
 # Change labels
-# gh issue edit 88 --add-label en_validation
-
-git edit $issue_number --remove-label en_cours
-git edit $issue_number --add-label en_validation
+confirm_to_continue "remove label en_cours and add label en_validation  "
+gh issue edit $issue_number --remove-label en_cours
+gh issue edit $issue_number --add-label en_validation
 
 # - demande de code review
 # - add label

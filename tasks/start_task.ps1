@@ -22,6 +22,24 @@ if($debug_param -eq "-d") {
 . "./scripts/core/issue.core.ps1"
 . "./scripts/core/pullrequest-core.ps1"
 
+# Les steps 
+$steps = "Commit current change" ,"Push change" ,"Create Pullrequest"
+
+
+# get issue_obj
+$issue_obj = find_issue_by_number $issue_number
+if($issue_obj -eq $null){
+    Write-Error "L'issue #$issue_number n'existe pas "
+    exit
+}else{
+    # Message de confirmation
+    git status
+    confirm_to_continue "Start task $($issue_obj.title) avec les étapes suivantes : `n`n$( $steps  | Format-Table| Out-String) "
+}
+
+
+
+
 # Commit current branche 
 confirm_to_continue "Commit current branche to start new task with issue_number : $issue_number  "
 git add .
@@ -33,9 +51,7 @@ git checkout develop
 git status
 git pull
 
-# get issue_obj
-$issue_obj = find_issue_by_number $issue_number
-# debug $issue_obj
+
 
 # Create new branche if not exist
 $branche_name = "$($issue_obj.title).$($issue_obj.number)"
@@ -56,14 +72,15 @@ confirm_to_continue "Run git merge develop"
 git merge develop
 
 ## Change label 
-git edit $issue_number --remove-label en_validation
-git edit $issue_number --add-label en_cours
+confirm_to_continue "add label en_cours"
+gh issue edit $issue_number --remove-label en_validation
+gh issue edit $issue_number --add-label en_cours
 
 
-# - Laison de la branche avec l'issue
-# - Création de pullrequest
-# - add label :
-#   - en_cours
+# Création de pullrequest
+confirm_to_continue "Create pullrequest"
+Create_pull_request_if_not_yet_exist $branche_name $issue_obj 
+
 
 Write-Host "`n`n"
 git status
