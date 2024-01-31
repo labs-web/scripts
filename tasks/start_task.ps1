@@ -55,6 +55,10 @@ if($local_branch_exist ){
 confirm_to_continue "Run git merge develop"
 git merge develop
 
+## Change label 
+git edit $issue_number --remove-label en_validation
+git edit $issue_number --add-label en_cours
+
 
 # - Laison de la branche avec l'issue
 # - Création de pullrequest
