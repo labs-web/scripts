@@ -3,6 +3,10 @@
 . "./scripts/core/core.ps1"
 . "./scripts/core/issue.core.ps1"
 . "./scripts/core/pullrequest-core.ps1"
+# Core : Params
+$debug = $true
+$test = $false
+$confirm_message = $false
 
 # Global variable
 $branche_name = "update_backlog_files"
@@ -17,13 +21,8 @@ if ($project_name -ne $null) {
   debug("project_name not exist = $project_name")
 }
 
-
-
 $depot_path = Get-Location
-# Core : Params
-$debug = $true
-$test = $false
-$confirm_message = $false
+
 
 # Message de confirmation
 confirm_to_continue("Update or Create issues for repository : $depot_path ")
