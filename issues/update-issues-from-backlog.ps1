@@ -90,7 +90,8 @@ function create_issue($Issue_obj,$label){
   if($Issue_obj.member -eq $null){
     debug "Création nouvelle issue :  $($Issue_obj.title) "
     confirm_to_continue("run : gh issue create --title $($Issue_obj.title) --label $label,new_issue --project $project_name  --body-file $($Issue_obj.body_file)")
-    gh issue create --title $Issue_obj.title --label "$label",new_issue --project $project_name  --body-file $($Issue_obj.body_file)
+    $Issue_obj.labels = $label
+    gh issue create --title $Issue_obj.title --label $Issue_obj.labels,new_issue --project $project_name  --body-file $($Issue_obj.body_file)
     
     # Change $Issue_obj.number
     $remote_issue = find_issue_by_title $Issue_obj.title
