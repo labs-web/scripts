@@ -8,6 +8,6 @@ assignees: ''
 
 ## Travail à faire
 
-##  Livrables
-
+## Livrables
+- docs/
 
