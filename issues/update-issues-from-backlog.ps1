@@ -1,5 +1,7 @@
 ﻿# Create or updat backlog to issues
 
+# TODO : ajouter les issus de github vers /backlog
+
 . "./scripts/core/core.ps1"
 . "./scripts/core/issue.core.ps1"
 . "./scripts/core/pullrequest-core.ps1"
