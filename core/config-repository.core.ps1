@@ -1,17 +1,4 @@
-﻿# Update the repository
-Write-Host "`n Ce script ne peut pas être exécuter dans github action `n"
-
-. "./scripts/core/core.ps1"
-# Core : Params
-$debug = $true
-$confirm_message = $false
-
-# inputs
-$depot_path = $(Get-Location).Path
-$organisation_repositories_path = $depot_path + "/../"
-$repositories_paths = Get-ChildItem $organisation_repositories_path -Filter * 
-
-confirm_to_continue "Mise à jour de tous les dépôts : $organisation_repositories_path"
+﻿debug "--- Import config-repository.core.ps1"
 
 function create_workspace_file_if_not_exist($repository_full_name,$repository_name){
     $work_space_full_file_name = "$repository_full_name/$repository_name.code-workspace"
@@ -22,8 +9,11 @@ function create_workspace_file_if_not_exist($repository_full_name,$repository_na
     }
 }
 
+
 function create_issues_template_files_if_not_exists($repository_full_name,$repository_name){
     
+    confirm_to_continue "create_issues_template_files_if_not_exists "
+
     $repository_issue_templates_path = "$repository_full_name/.github/ISSUE_TEMPLATE"
     $scripts_issue_templates_path = $repository_full_name + "/scripts/.github/ISSUE_TEMPLATE/"
 
@@ -47,6 +37,7 @@ function create_issues_template_files_if_not_exists($repository_full_name,$repos
 }
 function update_workflow_files($repository_full_name,$repository_name){
 
+    confirm_to_continue "update_workflow_files "
     debug "Modifier les workflow de $repository_name"
 
     # Create .github folder if not exist 
@@ -74,6 +65,7 @@ function update_workflow_files($repository_full_name,$repository_name){
     
 }
 function create_backlog_folder($repository_full_name,$repository_name){
+    confirm_to_continue "create_backlog_folder "
     $backlog_folder_path = "$repository_full_name/backlog"
     if (-not(Test-Path $backlog_folder_path)) {
         mkdir $backlog_folder_path
@@ -91,6 +83,7 @@ function create_backlog_folder($repository_full_name,$repository_name){
 }
 
 function create_doc_folder ($repository_full_name,$repository_name){
+    confirm_to_continue "create_doc_folder "
     $docs_folder_path = "$repository_full_name/docs"
     if (-not(Test-Path $docs_folder_path)) {
         debug "mkdir $docs_folder_path"
@@ -100,7 +93,7 @@ function create_doc_folder ($repository_full_name,$repository_name){
 }
 
 function update_snippets($repository_full_name,$repository_name){
-
+    confirm_to_continue "update_snippets "
      # Create .vscode folder if not exist 
      if (-not(Test-Path ($repository_full_name + "/.vscode"))) {
         debug "run : mkdir ($repository_full_name/.vscode) "
@@ -116,6 +109,7 @@ function update_snippets($repository_full_name,$repository_name){
 }
 
 function create_readme_json_file($repository_full_name,$repository_name){
+    confirm_to_continue "create_readme_json_file "
     $script_readme_json_file_path = $repository_full_name + "/scripts/README.json"
     $json_file_path = "$repository_full_name/README.json"
     if (-not(Test-Path "$json_file_path")) {
@@ -126,6 +120,7 @@ function create_readme_json_file($repository_full_name,$repository_name){
 }
 
 function install_submodule_scripts_if_not_installed($repository_full_name,$repository_name){
+    confirm_to_continue "install_submodule_scripts_if_not_installed: $repository_full_name/scripts "
     $script_folder = "$repository_full_name/scripts"
     debug "Install or update $script_folder "
     if (-not(Test-Path "$script_folder")) {
@@ -139,16 +134,14 @@ function install_submodule_scripts_if_not_installed($repository_full_name,$repos
     }
 }
 
-foreach($repository in $repositories_paths){
 
-    # Nom de lab
-    $repository_name = $repository.Name
-    $repository_full_name =$repository.FullName 
+function init_or_updat_config_repository($repository_name,$repository_full_name){
 
+    
     # Ne pas toucher repository scripts
     if($repository.Name -eq "scripts"){continue}
 
-    confirm_to_continue "Mise à jour de dépôt : $repository"
+    confirm_to_continue "Mise à jour de dépôt : $repository_name"
 
     install_submodule_scripts_if_not_installed $repository_full_name $repository_name
     create_workspace_file_if_not_exist  $repository_full_name $repository_name
@@ -158,57 +151,4 @@ foreach($repository in $repositories_paths){
     create_doc_folder $repository_full_name $repository_name
     update_snippets $repository_full_name $repository_name
     create_readme_json_file $repository_full_name $repository_name
-    
 }
-
-
-
-## Initialisation de dépôt
-# Create workspace file 
-
-
-## Copy snippets
-# backlog-item,doc-item
-
-### Copy issues template
-
-### Copy githib workflow
-# update-issues-from-backlog
-
-
-## Copy README.json file
-
-
-
-# Functions : confirmation
-
-
-# # L'utilisateur doit exécuter ce script sur le racine du lab
-# confirm_to_continue("Vous devez exécuter ce script sur le racine du lab")
-
-# # lab-reference
-# function get_lab_reference {
-#     $depot_path = Get-Location
-#     $depot_path = $depot_path.Path
-#     $depot_path_array = $depot_path.Split('\')
-#     return $depot_path_array[2] 
-# }
-# $lab_reference= get_lab_reference
-
-# # Confirmation
-# confirm_to_continue("Création de lab $lab_reference ")
-
-# # Création de fichier .code-workspace de vs code
-# $work_space_file_name = "$lab_reference.code-workspace"
-# new-item $work_space_file_name
-# Set-Content $work_space_file_name '{"folders": [{"path": "."}],"settings": {}}'
-
-# # create develop branch
-# git add .
-# git commit -m "save"
-# git push
-# git checkout -b "develop"
-# git push --set-upstream origin develop
-
-# #  set develop branch as default 
-# gh repo edit --default-branch develop
