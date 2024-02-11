@@ -142,7 +142,7 @@ function init_or_updat_config_repository($repository_name,$repository_full_name)
     if($repository.Name -eq "scripts"){continue}
 
     confirm_to_continue "Mise à jour de dépôt : $repository_name"
-
+    pull_respository $repository_full_name $repository_name
     install_submodule_scripts_if_not_installed $repository_full_name $repository_name
     create_workspace_file_if_not_exist  $repository_full_name $repository_name
     create_issues_template_files_if_not_exists  $repository_full_name $repository_name
@@ -151,4 +151,5 @@ function init_or_updat_config_repository($repository_name,$repository_full_name)
     create_doc_folder $repository_full_name $repository_name
     update_snippets $repository_full_name $repository_name
     create_readme_json_file $repository_full_name $repository_name
+    push_respository $repository_full_name $repository_name
 }
