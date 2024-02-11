@@ -135,5 +135,11 @@ foreach($backlog_directory in $backlog_directories) {
     
 }
 
+$add_issue_from_github_return_values = add_issue_from_github $depot_path
+if(-not($chaned_files)) {
+  $chaned_files = $add_issue_from_github_return_values[$add_issue_from_github_return_values.lenght - 1]
+}
+
+
 # Envoie de pullrequest si le programme à modifier les nom des fichiers backlog item
 save_and_send_pullrequest_if_files_changes $branche_name $chaned_files 

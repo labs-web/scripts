@@ -34,8 +34,8 @@ function get_issue_object([String]$file_name, [String] $file_fullname){
     $Issue_obj.number = 0
   }
   # si number = 0 et issue existe dans github
-  $issue = find_issue_by_title $Issue_obj.title
   if($Issue_obj.number -eq 0){
+    $issue = find_issue_by_title $Issue_obj.title
     if(-not($issue -eq $null)){
       $Issue_obj.number = $issue.number
     }
@@ -71,5 +71,77 @@ function change_backlog_item_file_name($file_fullname, $file_name, $Issue_obj){
     return $false
 }
 
+
+
+function find_local_issue($remote_issue){
+
+  confirm_to_continue "find_local_issue $($remote_issue.title)"
+  
+  $backlog_items=  Get-ChildItem "$depot_path/backlog" -Filter *.md  -Recurse
+  foreach($backlog_item in $backlog_items) {
+    # file name and path
+    $file_fullname = $backlog_item.FullName
+    $file_name = $backlog_item.Name
+    $item_full_path = Split-Path  -Path $file_fullname
+    # CreateIssue_obj that represente backlog_itm_file
+    $Issue_obj = get_issue_object $file_name  $file_fullname
+    if($Issue_obj.title -eq $remote_issue.title ){ 
+      return $true
+    }
+  }
+  
+  return $false
+}
+
+
+# create backlog item if remote issue not exist in local backlog
+function create_remote_issue_in_backlog($item_full_path, $remote_issue ){
+
+  confirm_to_continue "create_remote_issue_in_backlog $remote_issue "
+
+  # find label 
+  $label = "feature" # défault label
+  foreach($remote_label in $remote_issue.labels){
+    if($remote_label.name -eq "feature") { $label = "feature"  }
+    if($remote_label.name -eq "exposé") { $label = "exposé"  }
+    if($remote_label.name -eq "chapitre") { $label = "chapitre"  }
+    if($remote_label.name -eq "thème") { $label = "thème"  }
+  }
+
+
+  # debug "Rename file : $Issue_obj"
+  $issue_file_name = "0.$($remote_issue.title).$($remote_issue.number).md"
+  
+  
+  
+  
+  $issue_file_full_name = "$item_full_path\$label\$issue_file_name"
+
+  # Update file name
+  debug "Create $issue_file_full_name"
+
+  new-item $issue_file_full_name
+  Set-Content $issue_file_full_name $remote_issue.body
+
+}
+
+
+function add_issue_from_github($depot_path){
+
+  confirm_to_continue "add issue for $depot_path/backlog "
+  $add_issue_from_github_chaned_files = $false
+
+  $all_remote_issues = gh issue list -s all --json number,title,labels,body | ConvertFrom-Json
+  foreach($remote_issue in  $all_remote_issues){
+    $local_issue_exist = find_local_issue $remote_issue
+    if($local_issue_exist -eq $false){
+      $item_full_path = "$depot_path/backlog"
+      create_remote_issue_in_backlog $item_full_path $remote_issue 
+      $add_issue_from_github_chaned_files = $true
+    }
+  }
+
+  return $add_issue_from_github_chaned_files
+}
 
 
