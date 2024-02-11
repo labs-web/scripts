@@ -6,8 +6,9 @@ Write-Host "`n - Ce script doit être excuter au racine de dépôt `n"
 . "./scripts/core/core.ps1"
 # Core : Params
 $debug = $true
-$confirm_message = $true
+$confirm_message = $false
 
+. "./scripts/core/synchroniser.codre.ps1"
 . "./scripts/core/config-repository.core.ps1"
 
 # inputs

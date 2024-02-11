@@ -90,6 +90,28 @@ function create_doc_folder ($repository_full_name,$repository_name){
         mkdir $docs_folder_path
         New-Item "$docs_folder_path/index.md"
     }
+
+    # Copy folder 
+    $item_names = "_layouts","assets"
+    foreach($item_name in $item_names  ){
+        if (Test-Path "$docs_folder_path/$item_name") {
+            Remove-Item "$docs_folder_path/$item_name" -Recurse
+        }
+        copy-Item "$repository_full_name/scripts/docs/$item_name" "$docs_folder_path/$item_name" -Recurse
+    }
+
+    # Copy files 
+    $item_names = ".gitignore", "_config.yml","Gemfile","Gemfile.lock","index.md","presentation.md","run_jekyll.ps1"
+    foreach($item_name in $item_names  ){
+        if (Test-Path "$docs_folder_path/$item_name") {
+            Remove-Item "$docs_folder_path/$item_name"
+        }
+        copy-Item "$repository_full_name/scripts/docs/$item_name" "$docs_folder_path/" 
+    }
+
+
+  
+
 }
 
 function update_snippets($repository_full_name,$repository_name){
