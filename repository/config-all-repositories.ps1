@@ -20,6 +20,10 @@ confirm_to_continue "Mise à jour de tous les dépôts : $organisation_repositor
 
 
 foreach($repository in $repositories_paths){
+
+    # Ne pas traiter les dossier qui commance par "_"
+    if($repository.Name -like "_*") {continue}
+
     $repository_name = $repository.Name
     $repository_full_name =$repository.FullName 
     init_or_updat_config_repository   $repository_name $repository_full_name

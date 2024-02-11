@@ -5,6 +5,7 @@
 . "./scripts/core/core.ps1"
 . "./scripts/core/issue.core.ps1"
 . "./scripts/core/pullrequest-core.ps1"
+
 # Core : Params
 $debug = $true
 $test = $false
@@ -13,7 +14,8 @@ $confirm_message = $false
 # Global variable
 $branche_name = "update_backlog_files"
 
-# $project_name = "labs-web"
+# get project name from param : $project_name = "labs-web"
+# TODO : exit if project name not exist
 $project_name = $args[0]
 if ($project_name -ne $null) {
   Write-Host "Variable exists"
@@ -25,9 +27,12 @@ if ($project_name -ne $null) {
 
 $depot_path = Get-Location
 
-
 # Message de confirmation
 confirm_to_continue("Update or Create issues for repository : $depot_path ")
+
+# 
+# Déclaration des fonctions 
+# 
 
 # Issue_obj : convert backlog_item_file to issue_obj
 function get_issue_object([String]$file_name, [String] $file_fullname){
@@ -126,12 +131,15 @@ function change_backlog_item_file_name($Issue_obj){
 }
 
 $add_or_update_issues_iteration = 0
+
+# Ajouter ou créer une issue
 function add_or_update_issues($directory, $label){
 
   debug "----`n - Update or Create issues for : $label `n - ----"
 
   $backlog_items=  Get-ChildItem $directory -Filter *.md  
   $add_or_update_issues_chaned_files = $false
+  
   foreach($backlog_item in $backlog_items) {
     # file name and path
     $file_fullname = $backlog_item.FullName
@@ -157,22 +165,41 @@ function add_or_update_issues($directory, $label){
   return $add_or_update_issues_chaned_files
 }
 
+# 
+# Fin de déclaration des fonction
+# 
+
+# 
+# Algorithme 
+# 
+
 # Create or Update issues
-create_branch_to_do_pull_request $branche_name  
+create_branch_to_do_pull_request $branche_name
+
+# Si un fichie est modifier : on envoie un pullrequest vers develop qui contient les modification
+# des fichiers backlog item 
 $chaned_files = $false
+
+# Dans le dossier backlog, il existe plusieurs dossiers qui représente les labels 
 $backlog_directories=  Get-ChildItem "$depot_path/backlog"  -Directory
+
 foreach($backlog_directory in $backlog_directories) {
+
     # Ne pas traiter les dossier qui commance par "_"
     if($backlog_directory.Name -like "_*") {continue}
+
     $label = $backlog_directory.Name
     $directory = $backlog_directory.FullName 
     $return_value = add_or_update_issues $directory $label
     
     # if not yet true
+    # Dans Powershell, les fonctions ne retourn pas une valeur mais le résultat de console
     if(-not($chaned_files)) {
       $chaned_files = $return_value[$return_value.lenght - 1]
     }
     
     
 }
+
+# Envoie de pullrequest si le programme à modifier les nom des fichiers backlog item
 save_and_send_pullrequest_if_files_changes $branche_name $chaned_files 
