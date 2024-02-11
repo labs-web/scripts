@@ -71,7 +71,7 @@ function create_backlog_folder($repository_full_name,$repository_name){
         mkdir $backlog_folder_path
     }
 
-    $labels_names = "feature","sous-tâche","exposé", "chapitre"
+    $labels_names = "feature","sous-tâche","exposé", "chapitre","thème"
     foreach($labels_name in $labels_names  ){
         $backlog_labels_folder_path = "$repository_full_name/backlog/$labels_name"
         if (-not(Test-Path $backlog_labels_folder_path)) {

@@ -1,7 +1,6 @@
 ﻿# Config all repositorues 
 # Init ou Update the repositories configuration
 
-# TODO : add label thème to defaul label et backlog folder
 
 Write-Host "`n - Ce script ne peut pas être exécuter dans github action `n"
 Write-Host "`n - Ce script doit être excuter au racine de dépôt `n"
