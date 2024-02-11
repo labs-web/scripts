@@ -92,7 +92,7 @@ function create_doc_folder ($repository_full_name,$repository_name){
     }
 
     # Copy folder 
-    $item_names = "_layouts","assets"
+    $item_names = "_layouts","assets","images"
     foreach($item_name in $item_names  ){
         if (Test-Path "$docs_folder_path/$item_name") {
             Remove-Item "$docs_folder_path/$item_name" -Recurse
