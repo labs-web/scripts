@@ -43,7 +43,7 @@ function get_issue_object([String]$file_name, [String] $file_fullname){
   # Detection de membre 
   $membre_title_array = $Issue_obj.title.Split("_")
   if($membre_title_array.Length -eq 2){
-    $Issue_obj.member = $membre_title_array[0]
+    $Issue_obj.member = $membre_title_array[1]
   }else{ 
     $Issue_obj.member = $null
   }
