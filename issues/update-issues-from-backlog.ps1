@@ -53,7 +53,7 @@ function create_issue($Issue_obj,$label){
   }else{
     debug "Création nouvelle issue :  $($Issue_obj.title) pour membre $($Issue_obj.member) "
     confirm_to_continue("run : gh issue create --title $($Issue_obj.title) --label $label,new_issue --assignee $($Issue_obj.member)  --project $project_name  --body-file $($Issue_obj.body_file) ")
-    gh issue create --title $Issue_obj.title --label $label,new_issue --assignee $Issue_obj.member  --project $project_name  --body-file $($Issue_obj.body_file)
+    gh issue create --title $Issue_obj.title --label "$label,new_issue" --assignee $Issue_obj.member  --project $project_name  --body-file $($Issue_obj.body_file)
   }
 }
 
