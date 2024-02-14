@@ -58,7 +58,11 @@ function get_issue_object([String]$file_name, [String] $file_fullname){
 
 
 function change_backlog_item_file_name($file_fullname, $file_name, $Issue_obj){
-  # debug "Rename file : $Issue_obj"
+  debug "Rename file : $Issue_obj"
+  if($Issue_obj.number -eq $null) {
+    debug "Issue_obj.number = [$($Issue_obj.number)] est null "
+    return return $false
+   }
   $Issue_obj_file_name = "$($Issue_obj.ordre).$($Issue_obj.title).$($Issue_obj.number).md"
     if(-not($Issue_obj_file_name -eq $Issue_obj.file_name )){
         # Update file name
@@ -75,7 +79,7 @@ function change_backlog_item_file_name($file_fullname, $file_name, $Issue_obj){
 
 function find_local_issue($remote_issue){
 
-  confirm_to_continue "find_local_issue $($remote_issue.title)"
+  # confirm_to_continue "find_local_issue $($remote_issue.title)"
   
   $backlog_items=  Get-ChildItem "$depot_path/backlog" -Filter *.md  -Recurse
   foreach($backlog_item in $backlog_items) {
@@ -97,7 +101,7 @@ function find_local_issue($remote_issue){
 # create backlog item if remote issue not exist in local backlog
 function create_remote_issue_in_backlog($item_full_path, $remote_issue ){
 
-  confirm_to_continue "create_remote_issue_in_backlog $remote_issue "
+  # confirm_to_continue "create_remote_issue_in_backlog $remote_issue "
 
   # find label 
   $label = "feature" # défault label
@@ -111,9 +115,6 @@ function create_remote_issue_in_backlog($item_full_path, $remote_issue ){
 
   # debug "Rename file : $Issue_obj"
   $issue_file_name = "0.$($remote_issue.title).$($remote_issue.number).md"
-  
-  
-  
   
   $issue_file_full_name = "$item_full_path\$label\$issue_file_name"
 

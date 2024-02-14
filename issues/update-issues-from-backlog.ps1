@@ -71,15 +71,35 @@ $add_or_update_issues_iteration = 0
 # Ajouter ou créer une issue
 function add_or_update_issues($directory, $label){
 
-  debug "----`n - Update or Create issues for : $label `n - ----"
+ confirm_to_continue "----`n - Update or Create issues for : $label `n - ----"
+
+
+  # # Update files 
+  # $updated_files = git log -1 --name-only --oneline
+  # for($i = 0; $i -lt $updated_files.lenght; $i++ ){
+  #   $updated_files[$i] = $update_file.Split("/")[$update_file.Split("/").lenght -1]
+  # }
+  # foreach($update_file in $updated_files){
+  #   Write-Host "update_file =$update_file"
+  # }
 
   $backlog_items=  Get-ChildItem $directory -Filter *.md  
   $add_or_update_issues_chaned_files = $false
-
   foreach($backlog_item in $backlog_items) {
     # file name and path
     $file_fullname = $backlog_item.FullName
     $file_name = $backlog_item.Name
+
+    #  confirm_to_continue "if $file_name in  "
+    # if($updated_files.Contains($file_name) ){
+    #   confirm_to_continue "----`n - Update or Create issues for : $label `n - ----"
+    # }else {
+    #   confirm_to_continue "if $file_name not in $updated_files  "
+    #   continue
+    # }
+    
+
+
     $item_full_path = Split-Path  -Path $file_fullname
     # CreateIssue_obj that represente backlog_itm_file
     $Issue_obj = get_issue_object $file_name  $file_fullname
