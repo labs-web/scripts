@@ -29,7 +29,7 @@ foreach($file in $chanded_files){
     if(-not($autorised_change)) {
          
         $message_erreur =  $message_erreur  + "::error Vous n'avez pas le droit de modifier le fichier : $file `n"
-        Write-Host = $message_erreur
+        Write-Host  $message_erreur
     } 
 }
 
