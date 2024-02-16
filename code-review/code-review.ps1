@@ -32,7 +32,7 @@ foreach($file in $chanded_files){
 }
 
 if(-not($message_erreur -eq "")){
-    Write-Host $message_erreur
+    Write-Error $message_erreur
     exit 1
 }
 
