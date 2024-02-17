@@ -21,7 +21,7 @@ $linked_issues = $args[2]
 #
 $package_name = $pullrequest_name.Split('/')[0]
 $autorised_change = $true
-
+  
 
 # Règle 1 : Le pullrequest doit être relier avec un seul issue 
 debug "Règle 1 : Le pullrequest doit être relier avec un seul issue"
