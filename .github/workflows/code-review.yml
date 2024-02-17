@@ -1,10 +1,17 @@
-name: code-review
+name: Révision de code
 on:
   pull_request
+
+# on:
+#   pull_request_target:
+#     types: [opened, edited, reopened, synchronize]
 jobs:
-  code-review:
-    name: code-review job
+  validation-pullrequest:
+    name: Validation de pullrequest
     runs-on: ubuntu-latest
+    permissions:
+      issues: read
+      pull-requests: write
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -12,6 +19,22 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0 # inclure l'history de deux commit
           submodules: true
+      # - run : git checkout ${{ github.event.pull_request.head.sha }} 
+      - name: Find linked issues
+        uses: nearform-actions/github-action-check-linked-issues@v1
+        id: check-linked-issues
+        with:
+          exclude-branches: "main"
+      - name: Get the output
+        run: echo "How many linked issues? ${{ steps.check-linked-issues.outputs.issues }}"
+      - name : update scripts 
+        shell: pwsh
+        run : |
+          git config --global user.name "ESSARRAJ"
+          git config --global user.email "essarraj.fouad@gmail.com"
+          git submodule update --remote
       - name: run code-review.ps1
         shell: pwsh
-        run: ./github-actions/code-review/code-review.ps1 ${{ github.event.pull_request.title }} ${{github.event.pull_request.commits}}
+        run: ./scripts/code-review/code-review.ps1 "${{ github.event.pull_request.title }}" ${{github.event.pull_request.commits}} ${{ steps.check-linked-issues.outputs.issues }}
+        env:
+          GH_TOKEN: ${{ secrets.GHPROJECT_TOKEN }}
