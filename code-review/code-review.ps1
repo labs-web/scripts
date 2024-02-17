@@ -34,6 +34,7 @@ foreach($file in $chanded_files){
     } 
 }
 
+Write-Host "autorised_change = $autorised_change"
 if(-not($autorised_change)){
     exit 1
 }
