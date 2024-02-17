@@ -69,7 +69,8 @@ if(-not($pullrequest_name -eq $issue.title) ){
 
 git status
 
-$chanded_files = git diff --name-only HEAD develop
+# $chanded_files = git diff --name-only HEAD develop
+$chanded_files = git diff --name-only HEAD HEAD~"$commits"
 debug "chanded_files : "
 debug $chanded_files
 
