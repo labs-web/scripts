@@ -6,6 +6,12 @@ $debug = $true
 $confirm_message = $false
 
 
+# fix update script 
+git submodule update --remote
+git add  .
+git commit -m "update script"
+git push
+
 # 
 # Paramètres
 #
