@@ -67,6 +67,8 @@ if(-not($pullrequest_name -eq $issue.title) ){
 # git fetch
 # git checkout 
 
+git status
+
 $chanded_files = git diff --name-only HEAD develop
 debug "chanded_files : "
 debug $chanded_files
