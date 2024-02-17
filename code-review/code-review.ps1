@@ -36,6 +36,7 @@ if($linked_issues -eq $null) {
     Write-Host "::error:: Le pullrequest doit être relié avec un issue"
     exit 1
 }
+deub "linked_issues.length = $linked_issues.length"
 if(-not($linked_issues.length -eq  1)) {
     Write-Host "::error:: Le pullrequest doit être relié avec un seul issue"
     $autorised_change = $false
