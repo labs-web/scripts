@@ -16,6 +16,8 @@ $pullrequest_name = $args[0]
 $commits = $args[1]
 # Param 3 : Les issues reliés au pullrequest
 $linked_issues = $args[2]
+$linked_issues= $linked_issues.TrimStart("[").TrimEnd("]").Split(',')
+
 
 # 
 # Input
