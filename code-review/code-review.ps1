@@ -1,54 +1,41 @@
 ﻿
-# Input
-$param1 = $args[0]
-$package_name = $param1.Split('/')[0]
-
+# Paramètres
+$pullrequest_name = $args[0]
+$package_name = $pullrequest_name.Split('/')[0]
 $commits = $args[1]
 
-# Changed files
+# Les fichiers changés
 $chanded_files = git diff --name-only HEAD HEAD~"$commits"
 
-# echo "$chanded_files"
 
-# Les dossiers autorisé pour le package $package_name
-
+# Les dossiers autorisé à modifier pour le package $package_name
 $autorized_directories = "app/Http/Controllers/$package_name",
                  "app/Models/$package_name",
                  "docs/$package_name"
 
-# Message d'erreur
-$message_erreur = ""
 
 foreach($file in $chanded_files){
+
     $autorised_change = $false
+
+    # Vérifier si le fichier $file est situé dans l'un des dossiers autorisé
+    # TODO : utilisez des expression régulière
     foreach($autorized_directory in $autorized_directories ){
         if($file -like "$autorized_directory*"){
             $autorised_change = $true
         }
     }
+
+    # Afficahge de message d'erreur sir le membre n'est pas autorisé à modifier le fichier
     if(-not($autorised_change)) {
-         
-        $message_erreur =  $message_erreur  + "::error Vous n'avez pas le droit de modifier le fichier : $file `n"
-        Write-Host  $message_erreur
+        Write-Host "::error:: Vous n'avez pas le droit de modifier le fichier : $file"
     } 
 }
 
-if(-not($message_erreur -eq "")){
-    # $message_erreur = "::error  "  + $message_erreur
-    # Write-Host $message_erreur
-    exit 1
-}
-
-
-
-# Filtrer les fichiers selon une expression regulière
-# $filteted_files =  $chanded_files | Where-Object { 
-#     $_ -match '^github' -or $_ -match '.php$' 
+# if(-not($message_erreur -eq "")){
+#     # $message_erreur = "::error  "  + $message_erreur
+#     # Write-Host $message_erreur
+#     exit 1
 # }
 
-# Affichage
-# foreach ($file in  $filteted_files){
-#     Write-Host $file
-# }
-# \app\Http\Controllers\Package1
 
