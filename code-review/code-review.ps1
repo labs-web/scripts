@@ -4,6 +4,11 @@ $pullrequest_name = $args[0]
 $package_name = $pullrequest_name.Split('/')[0]
 $commits = $args[1]
 
+
+# Validation du nom de pullrequest
+# Règle : Le nom de pullrequest doit être égale le nom de l'issue
+
+
 # Les fichiers changés
 $chanded_files = git diff --name-only HEAD HEAD~"$commits"
 
@@ -29,7 +34,7 @@ foreach($file in $chanded_files){
 
     # Afficahge de message d'erreur sir le membre n'est pas autorisé à modifier le fichier
     if(-not($autorised_change_file)) {
-        Write-Host "::error:: + aa Vous n'avez pas le droit de modifier le fichier : $file"
+        Write-Host "::error:: Vous n'avez pas le droit de modifier le fichier : $file"
         $autorised_change = $false
     } 
 }
