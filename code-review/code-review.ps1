@@ -63,6 +63,7 @@ if(-not($pullrequest_name -eq $issue.title) ){
 
 # Les fichiers changés
 # $chanded_files = git diff --name-only HEAD HEAD~"$commits"
+git fetch
 $chanded_files = git diff --name-only HEAD develop
 debug "chanded_files : "
 debug $chanded_files
