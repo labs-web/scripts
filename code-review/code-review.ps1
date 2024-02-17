@@ -6,19 +6,6 @@ $debug = $true
 $confirm_message = $false
 
  
-# fix update script 
-git config --global user.name "ESSARRAJ"
-git config --global user.email "essarraj.fouad@gmail.com"
-git submodule update --remote
-
-# can not push on github action
-git add  .
-git commit -m "update script"
-git push
-# fatal: You are not currently on a branch.
-# To push the history leading to the current (detached HEAD)
-# state now, use
-#     git push origin HEAD:<name-of-remote-branch>
 
 # 
 # Paramètres
