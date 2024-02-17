@@ -1,9 +1,40 @@
-﻿
-# Paramètres
-$pullrequest_name = $args[0]
-$package_name = $pullrequest_name.Split('/')[0]
-$commits = $args[1]
+﻿. "./scripts/core/core.ps1"
+. "./scripts/core/issue.core.ps1"
+. "./scripts/core/backlog.core.ps1"
+# Core : Params
+$debug = $true
+$confirm_message = $false
 
+
+# 
+# Paramètres
+#
+# Param 1 : Nom du pullrequest
+$pullrequest_name = $args[0]
+# Param 2 :Nombre de commits à valider dans le branch liée à l'issue
+$commits = $args[1]
+# Param 3 : Les issues reliés au pullrequest
+$linked_issues = $args[2]
+
+# 
+# Input
+#
+$package_name = $pullrequest_name.Split('/')[0]
+$autorised_change = $true
+
+
+# Règle 1 : Le pullrequest doit être relier avec un seul issue 
+debug "Règle 1 : Le pullrequest doit être relier avec un seul issue"
+debug "Linked issues : $linked_issues"
+if($linked_issues -eq $null) {
+    Write-Host "::error:: Le pullrequest doit être relié avec un issue"
+    exit 1
+}
+if(-not($linked_issues.length -eq  1)) {
+    Write-Host "::error:: Le pullrequest doit être relié avec un seul issue"
+    $autorised_change = $false
+    exit 1
+}
 
 # Validation du nom de pullrequest
 # Règle : Le nom de pullrequest doit être égale le nom de l'issue
@@ -18,7 +49,7 @@ $autorized_directories = "app/Http/Controllers/$package_name",
                  "app/Models/$package_name",
                  "docs/$package_name"
 
-$autorised_change = $true
+
 
 foreach($file in $chanded_files){
 
