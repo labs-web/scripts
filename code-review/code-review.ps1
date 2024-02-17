@@ -46,7 +46,7 @@ debug "Règle 2 : nom de pullrequest = nom issue"
 $linked_issue = $linked_issues[0]
 $issue_number = $linked_issue.Split('#')[1]
 $issue  = find_issue_by_number $issue_number
-
+$issue_name = $issue.title
 debug "Issue : number = $issue_number, name = $issue_name"
 if(-not($pullrequest_name -eq $issue_name.title) ){
     Write-Host "::error:: Le nom de pullrequest doit être égale le nom de l'issue :  $($issue_name.title)"
