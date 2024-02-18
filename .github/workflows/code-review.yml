@@ -1,9 +1,8 @@
 name: Révision de code
 on:
   pull_request
-
 # on:
-#   pull_request_target:
+#   pull_request:
 #     types: [opened, edited, reopened, synchronize]
 jobs:
   validation-pullrequest:
@@ -17,17 +16,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 0 # inclure l'history de deux commit
+          fetch-depth: 0 # include all history and branches, default is 1
           submodules: true
-      # - run : git checkout ${{ github.event.pull_request.head.sha }} 
-      - name: Find linked issues
-        uses: nearform-actions/github-action-check-linked-issues@v1
-        id: check-linked-issues
-        with:
-          exclude-branches: "main"
-      - name: Get the output
-        run: echo "How many linked issues? ${{ steps.check-linked-issues.outputs.issues }}"
-      - name : update scripts 
+      - name : update scripts code from default branch 
         shell: pwsh
         run : |
           git config --global user.name "ESSARRAJ"
