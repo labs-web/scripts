@@ -18,6 +18,11 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0 # include all history and branches, default is 1
           submodules: true
+      - name: Find linked issues
+        uses: nearform-actions/github-action-check-linked-issues@v1
+        id: check-linked-issues
+        with:
+          exclude-branches: "main"
       - name : update scripts code from default branch 
         shell: pwsh
         run : |
