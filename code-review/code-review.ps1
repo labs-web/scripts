@@ -7,7 +7,12 @@ $confirm_message = $false
 
 
 # TODO : Problème avec des caractère de français dans le nom des fichiers
- 
+
+# Encoding utf-8
+$PSDefaultParameterValues['*:Encoding'] = 'utf8'
+$prev = [Console]::OutputEncoding
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
+
 
 # 
 # Paramètres
