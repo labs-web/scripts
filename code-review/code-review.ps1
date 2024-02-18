@@ -66,6 +66,7 @@ debug "Le branch actuel"
 git status
 
 # Affichage de liste des fichiers modifiés par le pullrequest
+git config core.quotepath off # By default, git will print non-ASCII file names in quoted octal notation
 $chanded_files = git diff --name-only HEAD HEAD~"$commits"
 debug "Liste des fichiers modifiés"
 $chanded_files
