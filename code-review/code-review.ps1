@@ -6,8 +6,6 @@ $debug = $true
 $confirm_message = $false
 
 
-# TODO : Problème avec des caractère de français dans le nom des fichiers
-
 # Encoding utf-8
 # debug "Encoding utf-8"
 # $PSDefaultParameterValues['*:Encoding'] = 'utf8'
@@ -67,7 +65,8 @@ git status
 
 # Affichage de liste des fichiers modifiés par le pullrequest
 git config core.quotepath off # By default, git will print non-ASCII file names in quoted octal notation
-$chanded_files = git diff --name-only HEAD HEAD~"$commits"
+# $chanded_files = git diff --name-only HEAD HEAD~"$commits"
+$chanded_files = git diff --name-only HEAD origin/develop
 debug "Liste des fichiers modifiés"
 $chanded_files
 
