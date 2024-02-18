@@ -14,7 +14,8 @@ $chanded_files = git diff --name-only HEAD HEAD~"$commits"
 
 $autorized_directories = "app/Http/Controllers/$package_name",
                  "app/Models/$package_name",
-                 "docs/$package_name"
+                 "docs/$package_name",
+                 "$package_name"
 
 # Message d'erreur
 $message_erreur = ""
