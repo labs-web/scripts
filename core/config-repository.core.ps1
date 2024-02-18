@@ -54,14 +54,15 @@ function update_workflow_files($repository_full_name,$repository_name){
     # Copy files
     $script_workflows_path = $repository_full_name + "/scripts/.github/workflows/"
 
-    debug "Copy update-issues-from-backlog.yml to $repository_full_name/.github/workflows/  "
-    copy-Item "$script_workflows_path/update-issues-from-backlog.yml" "$repository_full_name/.github/workflows/"
-    
-    debug "Copy update-readme-file.yml to $repository_full_name/.github/workflows/  "
-    copy-Item "$script_workflows_path/update-readme-file.yml" "$repository_full_name/.github/workflows/"
+    $workflow_files = "update-issues-from-backlog.yml",
+                        "update-readme-file.yml",
+                        "jekyll-gh-pages.yml",
+                        "code-review.yml"
 
-    debug "Copy jekyll-gh-pages.yml to $repository_full_name/.github/workflows/  "
-    copy-Item "$script_workflows_path/jekyll-gh-pages.yml" "$repository_full_name/.github/workflows/"
+    foreach($workflow_file in $workflow_files){
+        debug "Copy $workflow_file to $repository_full_name/.github/workflows/  "
+        copy-Item "$script_workflows_path/$workflow_file" "$repository_full_name/.github/workflows/"
+    }
     
 }
 function create_backlog_folder($repository_full_name,$repository_name){
