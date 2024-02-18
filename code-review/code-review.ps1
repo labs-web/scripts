@@ -5,6 +5,8 @@
 $debug = $true
 $confirm_message = $false
 
+
+# TODO : Problème avec des caractère de français dans le nom des fichiers
  
 
 # 
@@ -20,7 +22,7 @@ $linked_issues= $linked_issues.TrimStart("[").TrimEnd("]").Split(',')
 
 
 # 
-# Input
+# Input d'algorithme
 #
 $package_name = $pullrequest_name.Split('/')[0]
 $autorised_change = $true
@@ -53,28 +55,16 @@ if(-not($pullrequest_name -eq $issue.title) ){
     exit 1
 }
 
-
-
-
-
-# Validation du nom de pullrequest
-# Règle : Le nom de pullrequest doit être égale le nom de l'issue
-
-
-# Les fichiers changés
-# $chanded_files = git diff --name-only HEAD HEAD~"$commits"
-# debug "git fetch"
-# git fetch
-# git checkout 
-
+# Debug : affichage des informations le branch actuel
+debug "Le branch actuel"
 git status
 
-# $chanded_files = git diff --name-only HEAD develop
+# Affichage de liste des fichiers modifiés par le pullrequest
 $chanded_files = git diff --name-only HEAD HEAD~"$commits"
-debug "chanded_files : "
-debug $chanded_files
+debug "Liste des fichiers modifiés"
+$chanded_files
 
-# Les dossiers autorisé à modifier pour le package $package_name
+# Les dossiers autorisés à modifier pour le package $package_name
 $autorized_directories = "app/Http/Controllers/$package_name",
                  "app/Models/$package_name",
                  "docs/$package_name"
