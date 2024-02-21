@@ -44,10 +44,10 @@ function Create_or_Update_remote_labels($remote_labels) {
                   @{name = "thème"; color = "D93F0B"},
                   @{name = "exposé"; color = "C2E0C6"},
                   @{name = "P1"; color = "eeeeee"},
-                  {name = "P2"; color = "eeeeee"},
-                  {name = "P3"; color = "eeeeee"},
-                  {name = "P4"; color = "eeeeee"},
-                  {name = "P5"; color = "eeeeee"}
+                  @{name = "P2"; color = "eeeeee"},
+                  @{name = "P3"; color = "eeeeee"},
+                  @{name = "P4"; color = "eeeeee"},
+                  @{name = "P5"; color = "eeeeee"}
 
   foreach($local_label in $local_labels ){
       $remote_label = find_remote_label $remote_labels $local_label.name
