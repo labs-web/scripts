@@ -41,7 +41,8 @@ function Create_or_Update_remote_labels($remote_labels) {
                   @{name = "en_cours"; color = "0E8A16"},
                   @{name = "en_validation"; color = "FBCA04"},
                   @{name = "terminé"; color = "0052CC"},
-                  @{name = "thème"; color = "D93F0B"}
+                  @{name = "thème"; color = "D93F0B"},
+                  @{name = "exposé"; color = "C2E0C6"}
 
   foreach($local_label in $local_labels ){
       $remote_label = find_remote_label $remote_labels $local_label.name

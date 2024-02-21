@@ -6,6 +6,9 @@ $debug = $true
 $confirm_message = $false
 
 
+# TODO : Le nom de l'issue peut être commencer par un lettre majuscule, mais l'espace de nom doit être en miniscule
+
+
 # Encoding utf-8
 # debug "Encoding utf-8"
 # $PSDefaultParameterValues['*:Encoding'] = 'utf8'
