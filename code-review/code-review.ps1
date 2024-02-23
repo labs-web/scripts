@@ -73,12 +73,23 @@ $chanded_files = git diff --name-only HEAD origin/develop
 debug "Liste des fichiers modifiés"
 $chanded_files
 
-# Les dossiers autorisés à modifier pour le package $package_name
-$autorized_directories = "app/Http/Controllers/$package_name",
-                 "app/Models/$package_name",
-                 "docs/$package_name",
-                 "$package_name"
 
+
+# Les dossiers autorisés à modifier pour le package $package_name
+$autorized_directories = "docs/$package_name",
+                "$package_name",
+                "app/app/Exports/$package_name",
+                "app/app/Imports/$package_name",
+                "app/app/Http/Controllers/$package_name",
+                "app/app/Http/Requests/$package_name",
+                "app/app/Models/$package_name",
+                "app/app/Repositories/$package_name",
+                "app/app/resources/views/$package_name",
+                "app/routes/web.php",
+                "app/database/factories/$package_name",
+                "app/database/migrations/$package_name",
+                "app/database/seeders/$package_name",
+                "app/test/feature/$package_name"
 
 
 foreach($file in $chanded_files){
