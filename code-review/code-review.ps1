@@ -31,7 +31,7 @@ $linked_issues= $linked_issues.TrimStart("[").TrimEnd("]").Split(',')
 # 
 # Input d'algorithme
 #
-$package_name = $pullrequest_name.Split('/')[0]
+$package_name = $pullrequest_name.Split('_')[0]
 $autorised_change = $true
      
 
