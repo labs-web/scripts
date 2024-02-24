@@ -3,12 +3,21 @@
     "Packages" : [
         {
             "Titre":"backlog",
-            "Description":"Initialisation de dépôt",
+            "Description":"Backlog de projet",
             "IsValidaionAvecFormateur":true,
             "IsUseUnique":false,
             "Chemins":[
                 "docs/backlog/",
                 "backlog/"
+            ]
+        },
+        {
+            "Titre":"init-lab",
+            "Description":"Initialisation de dépôt",
+            "IsValidaionAvecFormateur":true,
+            "IsUseUnique":false,
+            "Chemins":[
+                "app/"
             ]
         },
         {
