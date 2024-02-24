@@ -14,15 +14,6 @@
         {
             "Titre":"init-lab",
             "Description":"Initialisation de dépôt",
-            "IsValidaionAvecFormateur":true,
-            "IsUseUnique":false,
-            "Chemins":[
-                "app/"
-            ]
-        },
-        {
-            "Titre":"init-lab",
-            "Description":"Initialisation de dépôt",
             "IsUseUnique":false,
             "IsValidaionAvecFormateur":false,
             "Chemins":[
@@ -45,7 +36,7 @@
         {
             "Titre":"init-app",
             "Description":"Initialisation de code, Il est valide si le dossier app n'existe pas",
-            "IsValidaionAvecFormateur":false,
+            "IsValidaionAvecFormateur":true,
             "IsUseUnique":true,
             "Chemins":[
                 "app/"
