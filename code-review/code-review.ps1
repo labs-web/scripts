@@ -139,6 +139,10 @@ if($package_config -eq $null){
     "app/test/feature/$package_name"
     $autorized_directories = $autorized_directories +  $chemins 
 }else{
+    if($package_config.IsValidaionAvecFormateur){
+        Write-Host "::error:: Vous ne pouvez pas valider cette tâche($package_name) sans l'accord du formateur"
+        $autorised_change = $false
+    }
     $autorized_directories = $autorized_directories + $package_config.Chemins
 }
 debug "Les chemins autorisés"
