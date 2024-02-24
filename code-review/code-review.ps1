@@ -29,7 +29,13 @@ $linked_issues= $linked_issues.TrimStart("[").TrimEnd("]").Split(',')
 # Input 
 $depot_path = $(Get-Location).Path
 $packages_json_file_path = "$depot_path/backlog/Packages.json"
-$packages_json = Get-Content $packages_json_file_path  | ConvertFrom-Json
+$default_packages_json_file_path = "$depot_path/scripts/backlog/Packages.json"
+$packages_json = $null
+if( Test-Path $packages_json_file_path ){
+ $packages_json = Get-Content $packages_json_file_path  | ConvertFrom-Json
+}else{
+ $packages_json = Get-Content $default_packages_json_file_path  | ConvertFrom-Json
+}
 $packages_config = $packages_json.Packages
 function find_package_config ($package_name){
     foreach($package_config in $packages_config ){

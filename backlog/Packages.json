@@ -1,0 +1,46 @@
+{
+    "Description":"Liste des packages avec des livrables personnalisés",
+    "Packages" : [
+        {
+            "Titre":"backlog",
+            "Description":"Initialisation de dépôt",
+            "IsValidaionAvecFormateur":true,
+            "IsUseUnique":false,
+            "Chemins":[
+                "docs/backlog/",
+                "backlog/"
+            ]
+        },
+        {
+            "Titre":"init-lab",
+            "Description":"Initialisation de dépôt",
+            "IsUseUnique":false,
+            "IsValidaionAvecFormateur":false,
+            "Chemins":[
+                ".github/",
+                ".vscode/",
+                "docs/layouts/",
+                "docs/assets/",
+                "docs/_config.yml",
+                "docs/.gitignore",
+                "docs/Gemfile",
+                "docs/Gemfile.lock",
+                "docs/images/",
+                "docs/index.md",
+                "docs/presentation.md",
+                "docs/run_jekyll.ps1",
+                "README.json",
+                "README.md"
+            ]
+        },
+        {
+            "Titre":"init-app",
+            "Description":"Initialisation de code, Il est valide si le dossier app n'existe pas",
+            "IsValidaionAvecFormateur":false,
+            "IsUseUnique":true,
+            "Chemins":[
+                "app/"
+            ]
+        }
+    ]
+}
