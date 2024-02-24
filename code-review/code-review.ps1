@@ -155,7 +155,7 @@ foreach($file in $chanded_files){
     $autorised_change_file = $false
 
       # Interdiction de modifier le fichier /backlog/Pacakges.json
-      $backlog_Pacakges_json = "backlog/Pacakages.json"
+      $backlog_Pacakges_json = "backlog/Packages.json"
       if($file -like "$backlog_Pacakges_json"){
           $autorised_change_file = $false
           
