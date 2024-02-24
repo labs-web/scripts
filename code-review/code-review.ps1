@@ -7,13 +7,7 @@ $confirm_message = $false
 
 
 # TODO : Le nom de l'issue peut être commencer par un lettre majuscule, mais l'espace de nom doit être en miniscule
-
-
-# Encoding utf-8
-# debug "Encoding utf-8"
-# $PSDefaultParameterValues['*:Encoding'] = 'utf8'
-# $prev = [Console]::OutputEncoding
-# [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
+# <!-- TODO : Tous les fichiers markdown doit être situé dans /docs -->
 
 
 # 
@@ -21,22 +15,54 @@ $confirm_message = $false
 #
 # Param 1 : Nom du pullrequest
 $pullrequest_name = $args[0]
+
+# Ce paramètre n'est pas utilisé, car nous comparons HEAD avec develop
 # Param 2 :Nombre de commits à valider dans le branch liée à l'issue
 $commits = $args[1]
+
 # Param 3 : Les issues reliés au pullrequest
 $linked_issues = $args[2]
 $linked_issues= $linked_issues.TrimStart("[").TrimEnd("]").Split(',')
 
 
 # 
-# Input d'algorithme
+# Inputs d'algorithme
 #
-$package_name = $pullrequest_name.Split('_')[0]
-$autorised_change = $true
-     
 
-# Règle 1 : Le pullrequest doit être relier avec un seul issue 
-debug "Règle 1 : Le pullrequest doit être relier avec un seul issue"
+# $issue_number and $issue_title
+# Règle 1 : Le nom de pullrequest doit être en format : IssueeNumber-NomIssuee
+debug "Règle 1 : Le nom de pullrequest doit être en format : IssueeNumber-NomIssuee"
+$issue_number = ""
+$issue_title = ""
+$pullrequest_parts_array = $pullrequest_name.Split('-')
+if($pullrequest_parts_array[0] -match "^\d+$" ){
+    $issue_number = $pullrequest_parts_array[0]
+    $issue_title = $pullrequest_name -replace "$issue_number-",""
+}else{
+    Write-Host "::error:: Le nom de pullrequest doit être en format : IssueeNumber-NomIssuee"
+    exit 1
+}
+
+# $package_name,$task_name
+# Le nom de l'issue peut être est sous la forme : PackageName_TaskName
+# Exemple gestion-projet_backend,gestion-projet_unitTest,gestion-projet_frontend
+$issue_title_parts_array = $issue_title.Split('_')
+$package_name = $issue_title_parts_array[0]
+$task_name = ""
+if($issue_title_parts_array.length -gt 0){
+    $task_name = $issue_title_parts_array[1]
+}
+$autorised_change = $true
+
+debug "Inputs d'algorithme :"
+debug "package_name = $package_name
+ - task_name = $task_name
+ - issue_title = $issue_title 
+ - issue_number = $issue_number "
+
+
+# Règle 2 : Le pullrequest doit être relier avec un seul issue 
+debug "Règle 2 : Le pullrequest doit être relier avec un seul issue"
 debug "Linked issues : $linked_issues"
 if($linked_issues -eq $null) {
     Write-Host "::error:: Le pullrequest doit être relié avec un issue"
@@ -49,16 +75,17 @@ if(-not($linked_issues.length -eq  1)) {
     exit 1
 }
 
-## Règle 2 : nom de pullrequest = nom issue
-debug "Règle 2 : nom de pullrequest = nom issue"
+## Règle 3 : Le nom du pullrequest doit être égale IssueNumber-NomIssue
+debug "Règle 3 : Le nom du pullrequest doit être égale IssueNumber-NomIssue"
 # intput : issue name and number
 $linked_issue = $linked_issues[0]
-$issue_number = $linked_issue.Split('#')[1]
-$issue  = find_issue_by_number $issue_number
-$issue_name = $issue.title
-debug "Issue : number = $issue_number, name = $issue_name"
-if(-not($pullrequest_name -eq $issue.title) ){
-    Write-Host "::error:: Le nom de pullrequest doit être égale le nom de l'issue :  $($issue.title)"
+$linked_issue_number = $linked_issue.Split('#')[1]
+$issue  = find_issue_by_number $linked_issue_number
+$linked_issue_name = $issue.title
+debug "linked_issue_number = $linked_issue_number
+- linked_issue_name = $linked_issue_name"
+if(-not($issue_title -eq $issue.title) -or -not($issue_number -eq $issue.number) ){
+    Write-Host "::error:: Le nom de pullrequest doit être égale :  $($issue.number)-$($issue.title)"
     exit 1
 }
 

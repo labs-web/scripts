@@ -16,7 +16,7 @@ function debug($message){
   }
 }
 
-debug "`n--- Import core.ps1 "
+debug "--- Import core.ps1 "
 
 # Message de confirmation
 function confirm_to_continue($message) {
