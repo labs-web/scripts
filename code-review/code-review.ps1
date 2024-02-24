@@ -154,12 +154,7 @@ foreach($file in $chanded_files){
 
     $autorised_change_file = $false
 
-      # Interdiction de modifier le fichier /backlog/Pacakges.json
-      $backlog_Pacakges_json = "backlog/Packages.json"
-      if($file -eq "backlog/Packages.json"){
-          $autorised_change_file = $false
-          
-      }
+
 
     # Vérifier si le fichier $file est situé dans l'un des dossiers autorisé
     # TODO : utilisez des expression régulière
@@ -170,7 +165,12 @@ foreach($file in $chanded_files){
     }
 
   
-
+      # Interdiction de modifier le fichier /backlog/Pacakges.json
+      $backlog_Pacakges_json = "backlog/Packages.json"
+      if($file -eq "backlog/Packages.json"){
+          $autorised_change_file = $false
+          
+      }
 
     # Afficahge de message d'erreur sir le membre n'est pas autorisé à modifier le fichier
     if(-not($autorised_change_file)) {
