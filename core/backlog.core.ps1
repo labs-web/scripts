@@ -61,7 +61,7 @@ function change_backlog_item_file_name($file_fullname, $file_name, $Issue_obj){
   debug "Rename file : $Issue_obj"
   if($Issue_obj.number -eq $null) {
     debug "Issue_obj.number = [$($Issue_obj.number)] est null "
-    return return $false
+    return $false
    }
   $Issue_obj_file_name = "$($Issue_obj.ordre).$($Issue_obj.title).$($Issue_obj.number).md"
     if(-not($Issue_obj_file_name -eq $Issue_obj.file_name )){
