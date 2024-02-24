@@ -25,6 +25,21 @@ $linked_issues = $args[2]
 $linked_issues= $linked_issues.TrimStart("[").TrimEnd("]").Split(',')
 
 
+# Load config files
+# Input 
+$depot_path = $(Get-Location).Path
+$packages_json_file_path = "$depot_path/backlog/Packages.json"
+$packages_json = Get-Content $packages_json_file_path  | ConvertFrom-Json
+$packages_config = $packages_json.Packages
+function find_package_config ($package_name){
+    foreach($package_config in $packages_config ){
+        if($package_config.Titre -eq $package_name ){
+            return $package_config
+        }
+    }
+    return $null
+}
+
 # 
 # Inputs d'algorithme
 #
@@ -83,7 +98,8 @@ $linked_issue_number = $linked_issue.Split('#')[1]
 $issue  = find_issue_by_number $linked_issue_number
 $linked_issue_name = $issue.title
 debug "linked_issue_number = $linked_issue_number
-- linked_issue_name = $linked_issue_name"
+- linked_issue_name = $linked_issue_name
+- remote isuue = $issue "
 if(-not($issue_title -eq $issue.title) -or -not($issue_number -eq $issue.number) ){
     Write-Host "::error:: Le nom de pullrequest doit être égale :  $($issue.number)-$($issue.title)"
     exit 1
@@ -101,27 +117,44 @@ debug "Liste des fichiers modifiés"
 $chanded_files
 
 
-
+# $packages_config
 # Les dossiers autorisés à modifier pour le package $package_name
+$package_config = find_package_config $package_name
+
 $autorized_directories = "docs/$package_name",
-                "$package_name",
-                "app/app/Exports/$package_name",
-                "app/app/Imports/$package_name",
-                "app/app/Http/Controllers/$package_name",
-                "app/app/Http/Requests/$package_name",
-                "app/app/Models/$package_name",
-                "app/app/Repositories/$package_name",
-                "app/app/resources/views/$package_name",
-                "app/routes/web.php",
-                "app/database/factories/$package_name",
-                "app/database/migrations/$package_name",
-                "app/database/seeders/$package_name",
-                "app/test/feature/$package_name"
+"$package_name"
+
+if($package_config -eq $null){
+    $chemins = "app/app/Exports/$package_name",
+    "app/app/Imports/$package_name",
+    "app/app/Http/Controllers/$package_name",
+    "app/app/Http/Requests/$package_name",
+    "app/app/Models/$package_name",
+    "app/app/Repositories/$package_name",
+    "app/app/resources/views/$package_name",
+    "app/routes/web.php",
+    "app/database/factories/$package_name",
+    "app/database/migrations/$package_name",
+    "app/database/seeders/$package_name",
+    "app/test/feature/$package_name"
+    $autorized_directories = $autorized_directories +  $chemins 
+}else{
+    $autorized_directories = $autorized_directories + $package_config.Chemins
+}
+debug "Les chemins autorisés"
+$autorized_directories
 
 
 foreach($file in $chanded_files){
 
     $autorised_change_file = $false
+
+    # Interdiction de modifier le fichier /backlog/Pacakges.json
+    $backlog_Pacakges_json = "backlog/Pacakges.json"
+    if($file -like "$backlog_Pacakges_json"){
+        $autorised_change_file = $false
+        
+    }
 
     # Vérifier si le fichier $file est situé dans l'un des dossiers autorisé
     # TODO : utilisez des expression régulière
