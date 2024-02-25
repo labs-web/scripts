@@ -2,13 +2,9 @@
 
 # Issue_obj : convert backlog_item_file to issue_obj
 function get_issue_object([String]$file_name, [String] $file_fullname){
-  # $item_full_path = Split-Path  -Path $file_fullname
-  # Règle : L'issue est existe si le fichier item commence par le numéro de l'issue
+  # Règle : L'issue est existe si le fichier item termine par le numéro de l'issue
   # Exemple des nom 
   # issue: 2.conception.10.md : 2:ordre,conception:title,10:numéro de l'issue sur github
-  # order_file:   3.codage.md
-  # create_file : test.md
-  # State : create_file,order_file,issue
   $Issue_obj = [PSCustomObject]@{ordre = 0
     number =  0
     title = ''
@@ -40,6 +36,17 @@ function get_issue_object([String]$file_name, [String] $file_fullname){
       $Issue_obj.number = $issue.number
     }
   }
+
+  # si number != 0 et issue n'existe pas dans github
+  # alors changer number vers 0 pour créer l'issue et modifer le nom du fichier
+  if(-not($Issue_obj.number -eq 0)){
+    $issue = find_issue_by_number $Issue_obj.number
+    if($issue -eq $null){
+      $Issue_obj.number = 0
+    }
+  }
+
+
   # Detection de membre 
   $membre_title_array = $Issue_obj.title.Split("+")
   if($membre_title_array.Length -eq 2){
