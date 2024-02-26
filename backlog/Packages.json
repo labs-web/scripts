@@ -19,7 +19,7 @@
             "Chemins":[
                 ".github/",
                 ".vscode/",
-                "docs/layouts/",
+                "docs/_layouts/",
                 "docs/assets/",
                 "docs/_config.yml",
                 "docs/.gitignore",
