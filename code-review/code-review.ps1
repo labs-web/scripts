@@ -140,6 +140,7 @@ if($package_config -eq $null){
     "app/app/Repositories/$package_name",
     "app/app/resources/views/$package_name",
     "app/routes/web.php",
+    "app/routes/$package_name.php",
     "app/database/factories/$package_name",
     "app/database/migrations/$package_name",
     "app/database/seeders/$package_name",
