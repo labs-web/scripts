@@ -128,7 +128,7 @@ $chanded_files
 $package_config = find_package_config $package_name
 
 $autorized_directories = "docs/$package_name",
-"scripts"
+"scripts",
 "$package_name"
 
 if($package_config -eq $null){
