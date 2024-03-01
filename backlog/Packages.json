@@ -2,6 +2,15 @@
     "Description":"Liste des packages avec des livrables personnalisés",
     "Packages" : [
         {
+            "Titre":"init-maquettes",
+            "Description":"init-maquettes",
+            "IsValidaionAvecFormateur":true,
+            "IsUseUnique":false,
+            "Chemins":[
+                "maquettes/"
+            ]
+        },
+        {
             "Titre":"backlog",
             "Description":"Backlog de projet",
             "IsValidaionAvecFormateur":true,
