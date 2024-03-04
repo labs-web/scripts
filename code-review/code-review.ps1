@@ -144,7 +144,8 @@ if($package_config -eq $null){
     "app/database/factories/$package_name",
     "app/database/migrations/$package_name",
     "app/database/seeders/$package_name",
-    "app/test/feature/$package_name"
+    "app/test/Feature/$package_name",
+    "app/test/Unit/$package_name"
     $autorized_directories = $autorized_directories +  $chemins 
 }else{
     if($package_config.IsValidaionAvecFormateur){
