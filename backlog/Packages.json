@@ -50,6 +50,16 @@
             "Chemins":[
                 "app/"
             ]
+        },
+        {
+            "Titre":"custom-css-rapport",
+            "Description":"Curstom css rapport et présentation",
+            "IsValidaionAvecFormateur":true,
+            "IsUseUnique":true,
+            "Chemins":[
+                "docs/assets/css/custom-presentation.css",
+                "docs/assets/css/custom-rapport.css"
+            ]
         }
     ]
 }
