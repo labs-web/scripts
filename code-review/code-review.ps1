@@ -138,7 +138,7 @@ if($package_config -eq $null){
     "app/app/Http/Requests/$package_name",
     "app/app/Models/$package_name",
     "app/app/Repositories/$package_name",
-    "app/app/resources/views/$package_name",
+    "app/resources/views/$package_name",
     "app/routes/web.php",
     "app/routes/$package_name.php",
     "app/database/factories/$package_name",
