@@ -1,4 +1,4 @@
-﻿debug "--- Import backlog.core.ps1"
+﻿# debug "--- Import backlog.core.ps1"
 
 # Issue_obj : convert backlog_item_file to issue_obj
 function get_issue_object([String]$file_name, [String] $file_fullname){

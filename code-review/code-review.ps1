@@ -1,104 +1,47 @@
 ﻿. "./scripts/core/core.ps1"
 . "./scripts/core/issue.core.ps1"
 . "./scripts/core/backlog.core.ps1"
+. "./scripts/code-review/code-review.functions.ps1"
+. "./scripts/code-review/code1.nom-pullrequest.code-review.ps1"
+. "./scripts/code-review/code2.un_seul_issue.code-review.ps1"
+. "./scripts/code-review/code3.code-review.ps1"
+
 # Core : Params
 $debug = $true
 $confirm_message = $false
 
 
-# TODO : Le nom de l'issue peut être commencer par un lettre majuscule, mais l'espace de nom doit être en miniscule
+# Paramètres de script
+$params = @{}
+get_script_params $args $params
+$pullrequest_name = $params.pullrequest_name
+$commits = $params.commits
+$linked_issues = $params.linked_issues
 
-# 
-# Paramètres
-#
-# Param 1 : Nom du pullrequest
-$pullrequest_name = $args[0]
-if($null -eq $pullrequest_name) { error "Il manque le paramètre 0 : Nom_Pullrequest"}
-
-# Ce paramètre n'est pas utilisé, car nous comparons HEAD avec develop
-# Param 2 :Nombre de commits à valider dans le branch liée à l'issue
-$commits = $args[1]
-if($null -eq $commits) { error "Il manque le paramètre 1 : Nombre_Commits (Nombre de commit à valider)"}
-
-# Param 3 : Les issues reliés au pullrequest
-$linked_issues = $args[2]
-if($null -eq $linked_issues) { error "Il manque le paramètre 2 : linked_issues"}
-$linked_issues= $linked_issues.TrimStart("[").TrimEnd("]").Split(',')
-
-
-# Load config files
-# Input 
-$depot_path = $(Get-Location).Path
-$packages_json_file_path = "$depot_path/backlog/Packages.json"
-$default_packages_json_file_path = "$depot_path/scripts/backlog/Packages.json"
-$packages_json = $null
-if( Test-Path $packages_json_file_path ){
- $packages_json = Get-Content $packages_json_file_path  | ConvertFrom-Json
-}else{
- $packages_json = Get-Content $default_packages_json_file_path  | ConvertFrom-Json
-}
+# Load config file
+$packages_json = get_package_json $(Get-Location).Path
 $packages_config = $packages_json.Packages
 $default_authorized_directories = $packages_json.DefaultAuthorizedDirectories
 $laravel_authorized_directories = $packages_json.LaravelAuthorizedDirectories
-# TODO : add comment function
-function find_package_config ($package_name){
-    foreach($package_config in $packages_config ){
-        if($package_config.Titre -eq $package_name ){
-            return $package_config
-        }
-    }
-    return $null
-}
+
+
+# Règle 1 : Le nom de pullrequest doit être en format : IssueeNumber-NomIssuee
+rule_pullrequest_name $pullrequest_name
+
 
 # 
-# Inputs d'algorithme
+# Les paramètres d'algorithme
 #
 
-# $issue_number and $issue_title
-# Règle 1 : Le nom de pullrequest doit être en format : IssueeNumber-NomIssuee
-debug "Règle 1 : Le nom de pullrequest doit être en format : IssueeNumber-NomIssuee"
-$issue_number = ""
-$issue_title = ""
-$pullrequest_parts_array = $pullrequest_name.Split('-')
-if($pullrequest_parts_array[0] -match "^\d+$" ){
-    $issue_number = $pullrequest_parts_array[0]
-    $issue_title = $pullrequest_name -replace "$issue_number-",""
-}else{
-    Write-Host "::error:: Le nom de pullrequest doit être en format : IssueeNumber-NomIssuee"
-    exit 1
-}
-
-# $package_name,$task_name
-# Le nom de l'issue peut être est sous la forme : PackageName_TaskName
-# Exemple gestion-projet_backend,gestion-projet_unitTest,gestion-projet_frontend
-$issue_title_parts_array = $issue_title.Split('_')
-$package_name = $issue_title_parts_array[0]
-$task_name = ""
-if($issue_title_parts_array.length -gt 0){
-    $task_name = $issue_title_parts_array[1]
-}
-$autorised_change = $true
-
-debug "Inputs d'algorithme :"
-debug "package_name = $package_name
- - task_name = $task_name
- - issue_title = $issue_title 
- - issue_number = $issue_number "
-
+$algorithme_params = get_algorithme_params $pullrequest_name
+$AUTORISED_CHANGE  = $true
+$issue_number = $algorithme_params.issue_number
+$issue_title =$algorithme_params.issue_number
+$task_name = $algorithme_params.task_name
+$package_name =$algorithme_params.package_name
 
 # Règle 2 : Le pullrequest doit être relier avec un seul issue 
-debug "Règle 2 : Le pullrequest doit être relier avec un seul issue"
-debug "Linked issues : $linked_issues"
-if($linked_issues -eq $null) {
-    Write-Host "::error:: Le pullrequest doit être relié avec un issue"
-    exit 1
-}
-debug "linked_issues.length = $($linked_issues.length)"
-if(-not($linked_issues.length -eq  1)) {
-    Write-Host "::error:: Le pullrequest doit être relié avec un seul issue"
-    $autorised_change = $false
-    exit 1
-}
+rule_pullrequest_doit_etre_relier_avec_un_seul_issue $linked_issues
 
 ## Règle 3 : Le nom du pullrequest doit être égale IssueNumber-NomIssue
 debug "Règle 3 : Le nom du pullrequest doit être égale IssueNumber-NomIssue"
@@ -129,43 +72,18 @@ $chanded_files
 
 # $packages_config
 # Les dossiers autorisés à modifier pour le package $package_name
-$package_config = find_package_config $package_name
-
-
+$package_config = find_package_config $package_name $packages_config
+replace_array_string $default_authorized_directories "{{package_name}}" "$package_name"
 $autorized_directories = $default_authorized_directories
-$autorized_directories = "docs/$package_name",
-    "scripts",
-    "$package_name"
-
-
 if($package_config -eq $null){
-    # $chemins = "",""
-    # foreach ( $chemin in $laravel_authorized_directories ){
-    #     $chemin = $chemin.replace("$package_name", "aa")
-    #     Write-Host $chemin.replace("$package_name", "bb")
-    #     $chemins = $chemins + $chemin
-    # }
     $laravel_app = "app/"
-    $chemins = "app/Exports/$package_name",
-        "app/app/Imports/$package_name",
-        "app/app/Http/Controllers/$package_name",
-        "app/app/Http/Requests/$package_name",
-        "app/app/Models/$package_name",
-        "app/app/Repositories/$package_name",
-        "app/resources/views/$package_name",
-        "app/routes/web.php",
-        "app/routes/$package_name.php",
-        "app/database/factories/$package_name",
-        "app/database/migrations/$package_name",
-        "app/database/seeders/$package_name",
-        "app/tests/Feature/$package_name",
-        "app/tests/Unit/$package_name"
-    
-    $autorized_directories = $autorized_directories +  $chemins
+    replace_array_string $laravel_authorized_directories "{{package_name}}" "$package_name"
+    replace_array_string $laravel_authorized_directories "{{directory_code}}" "app"
+    $autorized_directories = $autorized_directories +  $laravel_authorized_directories
 }else{
     if($package_config.IsValidaionAvecFormateur){
         Write-Host "::error:: Vous ne pouvez pas valider cette tâche($package_name) sans l'accord du formateur"
-        $autorised_change = $false
+        $AUTORISED_CHANGE  = $false
     }
     $autorized_directories = $autorized_directories + $package_config.Chemins
 }
@@ -198,12 +116,12 @@ foreach($file in $chanded_files){
     # Afficahge de message d'erreur sir le membre n'est pas autorisé à modifier le fichier
     if(-not($autorised_change_file)) {
         Write-Host "::error:: Vous n'avez pas le droit de modifier le fichier : $file"
-        $autorised_change = $false
+        $AUTORISED_CHANGE  = $false
     } 
 }
 
-Write-Host "autorised_change = $autorised_change"
-if(-not($autorised_change)){
+Write-Host "AUTORISED_CHANGE  = $AUTORISED_CHANGE "
+if(-not($AUTORISED_CHANGE )){
     exit 1
 }
 

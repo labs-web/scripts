@@ -1,25 +1,25 @@
 {
     "Description":"Liste des packages avec des livrables personnalisés",
     "DefaultAuthorizedDirectories":[
-        "docs/$package_name",
+        "docs/{{package_name}}",
         "scripts",
-        "$package_name"
+        "{{package_name}}"
     ],
     "LaravelAuthorizedDirectories":[
-        "app/app/Exports/$package_name",
-        "app/app/Imports/$package_name",
-        "app/app/Http/Controllers/$package_name",
-        "app/app/Http/Requests/$package_name",
-        "app/app/Models/$package_name",
-        "app/app/Repositories/$package_name",
-        "app/resources/views/$package_name",
-        "app/routes/web.php",
-        "app/routes/$package_name.php",
-        "app/database/factories/$package_name",
-        "app/database/migrations/$package_name",
-        "app/database/seeders/$package_name",
-        "app/tests/Feature/$package_name",
-        "app/tests/Unit/$package_name"
+        "{{directory_code}}/app/Exports/{{package_name}}",
+        "{{directory_code}}/app/Imports/{{package_name}}",
+        "{{directory_code}}/app/Http/Controllers/{{package_name}}",
+        "{{directory_code}}/app/Http/Requests/{{package_name}}",
+        "{{directory_code}}/app/Models/{{package_name}}",
+        "{{directory_code}}/app/Repositories/{{package_name}}",
+        "{{directory_code}}/resources/views/{{package_name}}",
+        "{{directory_code}}/routes/web.php",
+        "{{directory_code}}/routes/{{package_name}}.php",
+        "{{directory_code}}/database/factories/{{package_name}}",
+        "{{directory_code}}/database/migrations/{{package_name}}",
+        "{{directory_code}}/database/seeders/{{package_name}}",
+        "{{directory_code}}/tests/Feature/{{package_name}}",
+        "{{directory_code}}/tests/Unit/{{package_name}}"
     ],
     "Packages" : [
         {
