@@ -65,10 +65,7 @@ function get_algorithme_params($pullrequest_name){
     $algorithme_params.package_name = $issue_title_parts_array[0]
     if($issue_title_parts_array.length -gt 0){
         $algorithme_params.task_name = $issue_title_parts_array[1]
-}
-debug "Les paramètres d'algorithme :
- - package_name = $($algorithme_params.package_name)
- - task_name = $($algorithme_params.task_name)
- - issue_title = $($algorithme_params.issue_title )
- - issue_number = $($algorithme_params.issue_number) "
+    }
+    return $algorithme_params
+
 }

@@ -27,7 +27,7 @@ afficher_titre_test "Test de règle 2 : Appel de script sans isuee relie"
 .\scripts\code-review\code-review.ps1 1-init-app 2 
 
 # Test de règle 3
-afficher_titre_test "Test de règle 3 : Appel de script avec isuee qui n'existe pas  "
+afficher_titre_test "Test de règle 3 : Le nom de pullrequest doit être identique au nom de l'issue  "
 .\scripts\code-review\code-review.ps1 1-init-app 2 [init-app#1]
 
 
