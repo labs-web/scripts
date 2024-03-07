@@ -1,5 +1,26 @@
 {
     "Description":"Liste des packages avec des livrables personnalisés",
+    "DefaultAuthorizedDirectories":[
+        "docs/$package_name",
+        "scripts",
+        "$package_name"
+    ],
+    "LaravelAuthorizedDirectories":[
+        "app/app/Exports/$package_name",
+        "app/app/Imports/$package_name",
+        "app/app/Http/Controllers/$package_name",
+        "app/app/Http/Requests/$package_name",
+        "app/app/Models/$package_name",
+        "app/app/Repositories/$package_name",
+        "app/resources/views/$package_name",
+        "app/routes/web.php",
+        "app/routes/$package_name.php",
+        "app/database/factories/$package_name",
+        "app/database/migrations/$package_name",
+        "app/database/seeders/$package_name",
+        "app/tests/Feature/$package_name",
+        "app/tests/Unit/$package_name"
+    ],
     "Packages" : [
         {
             "Titre":"init-maquettes",

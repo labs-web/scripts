@@ -39,4 +39,9 @@ function confirm_to_continue($message) {
     }
 }
 
+# Affichage d'un message d'erreur et arrêter le script
+function error($message){
+    Write-Host "`n - $message " -ForegroundColor Red 
+    exit 0
+}
 

@@ -7,21 +7,22 @@ $confirm_message = $false
 
 
 # TODO : Le nom de l'issue peut être commencer par un lettre majuscule, mais l'espace de nom doit être en miniscule
-# <!-- TODO : Tous les fichiers markdown doit être situé dans /docs -->
-
 
 # 
 # Paramètres
 #
 # Param 1 : Nom du pullrequest
 $pullrequest_name = $args[0]
+if($null -eq $pullrequest_name) { error "Il manque le paramètre 0 : Nom_Pullrequest"}
 
 # Ce paramètre n'est pas utilisé, car nous comparons HEAD avec develop
 # Param 2 :Nombre de commits à valider dans le branch liée à l'issue
 $commits = $args[1]
+if($null -eq $commits) { error "Il manque le paramètre 1 : Nombre_Commits (Nombre de commit à valider)"}
 
 # Param 3 : Les issues reliés au pullrequest
 $linked_issues = $args[2]
+if($null -eq $linked_issues) { error "Il manque le paramètre 2 : linked_issues"}
 $linked_issues= $linked_issues.TrimStart("[").TrimEnd("]").Split(',')
 
 
@@ -37,6 +38,9 @@ if( Test-Path $packages_json_file_path ){
  $packages_json = Get-Content $default_packages_json_file_path  | ConvertFrom-Json
 }
 $packages_config = $packages_json.Packages
+$default_authorized_directories = $packages_json.DefaultAuthorizedDirectories
+$laravel_authorized_directories = $packages_json.LaravelAuthorizedDirectories
+# TODO : add comment function
 function find_package_config ($package_name){
     foreach($package_config in $packages_config ){
         if($package_config.Titre -eq $package_name ){
@@ -127,26 +131,33 @@ $chanded_files
 # Les dossiers autorisés à modifier pour le package $package_name
 $package_config = find_package_config $package_name
 
-$autorized_directories = "docs/$package_name",
-"scripts",
-"$package_name"
+
+$autorized_directories = $default_authorized_directories
 
 if($package_config -eq $null){
-    $chemins = "app/app/Exports/$package_name",
-    "app/app/Imports/$package_name",
-    "app/app/Http/Controllers/$package_name",
-    "app/app/Http/Requests/$package_name",
-    "app/app/Models/$package_name",
-    "app/app/Repositories/$package_name",
-    "app/resources/views/$package_name",
-    "app/routes/web.php",
-    "app/routes/$package_name.php",
-    "app/database/factories/$package_name",
-    "app/database/migrations/$package_name",
-    "app/database/seeders/$package_name",
-    "app/tests/Feature/$package_name",
-    "app/tests/Unit/$package_name"
-    $autorized_directories = $autorized_directories +  $chemins 
+    # $chemins = "",""
+    # foreach ( $chemin in $laravel_authorized_directories ){
+    #     $chemin = $chemin.replace("$package_name", "aa")
+    #     Write-Host $chemin.replace("$package_name", "bb")
+    #     $chemins = $chemins + $chemin
+    # }
+    $laravel_app = "app/"
+    $chemins = "app/Exports/$package_name",
+        "app/app/Imports/$package_name",
+        "app/app/Http/Controllers/$package_name",
+        "app/app/Http/Requests/$package_name",
+        "app/app/Models/$package_name",
+        "app/app/Repositories/$package_name",
+        "app/resources/views/$package_name",
+        "app/routes/web.php",
+        "app/routes/$package_name.php",
+        "app/database/factories/$package_name",
+        "app/database/migrations/$package_name",
+        "app/database/seeders/$package_name",
+        "app/tests/Feature/$package_name",
+        "app/tests/Unit/$package_name"
+    
+    $autorized_directories = $autorized_directories +  $chemins
 }else{
     if($package_config.IsValidaionAvecFormateur){
         Write-Host "::error:: Vous ne pouvez pas valider cette tâche($package_name) sans l'accord du formateur"
