@@ -133,6 +133,10 @@ $package_config = find_package_config $package_name
 
 
 $autorized_directories = $default_authorized_directories
+$autorized_directories = "docs/$package_name",
+    "scripts",
+    "$package_name"
+
 
 if($package_config -eq $null){
     # $chemins = "",""
