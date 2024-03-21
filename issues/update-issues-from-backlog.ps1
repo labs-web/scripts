@@ -156,7 +156,7 @@ for($i = 0; $i -lt $updated_files.Count; $i++ ){
   if($updated_files.Count -gt 1 ){
     $issue_label = $updated_files[$i].Split("/")[$updated_files[$i].Split("/").Count -2]
   }
-  $file_fullname =  $updated_files[$i]
+  $file_fullname = "$depot_path/$updated_files[$i]"
   $updated_files[$i] = $updated_files[$i].Split("/")[$updated_files[$i].Split("/").Count -1]
   $file_name = $updated_files[$i]
  
