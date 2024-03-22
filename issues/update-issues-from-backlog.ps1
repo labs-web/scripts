@@ -7,6 +7,7 @@
 . "./scripts/core/pullrequest-core.ps1"
 . "./scripts/core/backlog.core.ps1"
 
+debug "Version : Update All backlog items"
 
 # Core : Params
 $debug = $true
