@@ -145,7 +145,10 @@ $chaned_files = $false
 git config core.quotepath off # By default, git will print non-ASCII file names in quoted octal notation
 $updated_files = git log -1 --name-only --oneline
 debug "Les fichiers changés :"
-debug $updated_files
+foreach( $path in $updated_files ){
+  Write-Host "- $path"
+}
+
 
 for($i = 0; $i -lt $updated_files.Count; $i++ ){
 
