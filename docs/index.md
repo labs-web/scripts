@@ -3,20 +3,13 @@ layout: default
 order: 1
 ---
 
-{% assign pages = site.pages | sort: "order" %}
-{% for page in pages %}
-{% if page.url != "/feed.xml" 
-and page.url != "/assets/css/style.css" 
-and  page.url != "/"  
-and page.url != "/presentation.html" %}
+# Rapports et présentations
 
-<!-- page.content | markdownify -->
-{{page.content }}
+## Rapport global
 
-{% endif %}
-{% endfor %}
+- [Rapport global](http://127.0.0.1:4000/prototype/packages/) 
+- [Présentation global](http://127.0.0.1:4000/prototype/packages/presentation.html) 
 
-
-
- 
- 
+## Package 1 
+- [Rapport-package1](http://127.0.0.1:4000/prototype/packages/package1) 
+- [Présentation-package1](http://127.0.0.1:4000/prototype/packages/package1/presentation.html) 
