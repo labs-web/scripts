@@ -11,10 +11,11 @@ if($null -eq $params.pullrequest_name) { error "Il manque le paramètre 0 : Nom_
 $commits = $arguments[1]
 if($null -eq $commits) { error "Il manque le paramètre 1 : Nombre_Commits (Nombre de commit à valider)"}
 
+# TODO : modifer pour CC1 et CC2 de DB1
 # Param 3 : Les issues reliés au pullrequest
-$params.linked_issues = $arguments[2]
-if($null -eq $params.linked_issues) { error "Il manque le paramètre 2 : linked_issues"}
-$params.linked_issues= $params.linked_issues.TrimStart("[").TrimEnd("]").Split(',')
+# $params.linked_issues = $arguments[2]
+# if($null -eq $params.linked_issues) { error "Il manque le paramètre 2 : linked_issues"}
+# $params.linked_issues= $params.linked_issues.TrimStart("[").TrimEnd("]").Split(',')
 
 }
 
