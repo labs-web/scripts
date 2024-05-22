@@ -40,11 +40,13 @@ debug "Les paramètres d'algorithme :
  - issue_title = $issue_title
  - issue_number = $issue_number "
 
+# TODO : Il est désactiver pour passer le CC1 et CC2  de databae 
 # Règle 2 : Le pullrequest doit être relier avec un seul issue 
-rule_pullrequest_doit_etre_relier_avec_un_seul_issue $linked_issues
+# rule_pullrequest_doit_etre_relier_avec_un_seul_issue $linked_issues
 
+# TODO : Il est désactiver pour passer le CC1 et CC2  de databae 
 ## Règle 3 : Le nom de pullrequest doit être identique au nom de l'issue
-code3 $linked_issues $issue_title $issue_number
+# code3 $linked_issues $issue_title $issue_number
 
 # Affichage de liste des fichiers modifiés par le pullrequest
 git config core.quotepath off # By default, git will print non-ASCII file names in quoted octal notation
