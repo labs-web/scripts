@@ -61,7 +61,7 @@ function get_algorithme_params($pullrequest_name){
     # Calculer : $task_name
     # - Le nom de l'issue peut être est sous la forme : PackageName_TaskName
     # - Exemple gestion-projet_backend,gestion-projet_unitTest,gestion-projet_frontend
-    $issue_title_parts_array = $algorithme_params.issue_title.Split('_')
+    $issue_title_parts_array = $algorithme_params.issue_title.Split('__')
     $algorithme_params.package_name = $issue_title_parts_array[0]
     if($issue_title_parts_array.length -gt 0){
         $algorithme_params.task_name = $issue_title_parts_array[1]
