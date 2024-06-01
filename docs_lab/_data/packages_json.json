@@ -1,0 +1,17 @@
+[
+    {
+        "name":"pkg_autoformation",
+        "titre":"Autoformation"
+        
+    },
+    {
+        "name":"pkg_pratique",
+        "titre":"Pratique"
+        
+    },
+    {
+        "name":"pkg_mini-projet",
+        "titre":"Mini projet"
+        
+    }
+  ]
