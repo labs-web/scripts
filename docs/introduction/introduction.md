@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: rapport
 chapitre: introduction
 presentation: introduction
 package: package1

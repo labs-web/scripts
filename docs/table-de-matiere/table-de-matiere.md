@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: rapport
 chapitre: table de matiere
 order: 1
 ---

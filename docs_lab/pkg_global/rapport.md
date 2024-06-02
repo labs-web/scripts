@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: rapport
 chapitre: false
 package: pkg_global
 order: 1
