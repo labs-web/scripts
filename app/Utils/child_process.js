@@ -1,16 +1,14 @@
 
 
-function run_commande(commande){
-    const child_process = require('child_process');
-
-    child_process.exec(commande, (error, stdout, stderr) => {
-      if (error) {
-        console.error(error);
-        return;
-      }
-    
-      console.log(stdout);
-    });
+ 
+function run_commande(commande) {
+  const child_process = require('child_process');
+  try {
+    const output = child_process.execSync(commande).toString();
+    console.log(output);
+  } catch (error) {
+    console.error(error.toString());
+  }
 }
 
 module.exports = {
