@@ -5,12 +5,12 @@ order: 1
 
 # Rapports
 
-<a href="/lab-nodejs/pkg_global/rapport"> Rapport globale </a> 
+<a href="/{{site.data.lab_info.lab_reference}}/rapport_global/rapport"> Rapport globale </a> 
 
 ## Par packages
 
 <ul>
-  {% for package in site.data.packages_json %}
-    <li> <a href="/lab-nodejs/{{ package.name }}/rapport"> {{ package.titre }} </a> </li>
+  {% for package in site.data.lab_info.packages %}
+    <li> <a href="/{{site.data.lab_info.lab_reference}}/{{ package.name }}/rapport"> {{ package.titre }} </a> </li>
   {% endfor %}
 </ul>

@@ -1,9 +1,9 @@
 ---
 layout: rapport
 chapitre: false
-package: pkg_autoformation
+package: autoformation
 order: 1
 ---
 
-{% assign package_name = "pkg_pratique" %}
+{% assign package_name = "autoformation" %}
 {% include rapport_par_package.md %}

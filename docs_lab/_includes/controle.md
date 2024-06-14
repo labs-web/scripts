@@ -1,5 +1,5 @@
 
-{% assign packages_json = site.data.packages_json %}
+{% assign packages_json = site.data.lab_info.packages %}
 
 # {{competence}} - {{controle}}
 

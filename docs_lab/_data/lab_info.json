@@ -1,0 +1,20 @@
+{
+    "lab_reference" : "lab",
+    "packages" : [
+        {
+            "name":"autoformation",
+            "titre":"Autoformation"
+            
+        },
+        {
+            "name":"pratique",
+            "titre":"Pratique"
+            
+        },
+        {
+            "name":"mini_projet",
+            "titre":"Mini projet"
+            
+        }
+    ]
+}

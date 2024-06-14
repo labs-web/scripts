@@ -1,7 +1,7 @@
 {% assign pages = site.pages | sort: "order" %}
 {% for page in pages %}
 
-{% if package_name == "pkg_global" %}
+{% if package_name == "rapport_global" %}
 
 {% if page.is_global == false %}
 {% continue %} 
